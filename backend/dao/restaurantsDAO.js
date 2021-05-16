@@ -1,5 +1,3 @@
-import e from "express";
-
 let restaurants;
 
 class RestaurantsDAO {
@@ -21,7 +19,7 @@ class RestaurantsDAO {
     let query
     if (filters) {
       if ("name" in filters) {
-        query = { $text: { $search: filters["name"] } } //anywhere in the text... search for the name passed in the filter - there's no database field, if someone does a text search what fields do you check in mongodb (set up in atlas) - @NOTE
+        query = { $text: { $search: filters["name"] } } //you don't need this to be an exact match so you have to create a custom filter - @NOTE
       } else if ("cuisine" in filters) {
         query = { "cuisine": { $eq: filters["cuisine"] } } //if cuisine in the db is equal to the cuisine in passed in the filter - @NOTE
       } else if ("zipcode" in filters) {
@@ -43,7 +41,7 @@ class RestaurantsDAO {
       const totalNumRestaurants = await restaurants.countDocuments(query);
       return { restaurantsList, totalNumRestaurants };
     } catch (e) {
-      console.error(`unable to convert cursor to array, or document count isse: ${e}`);
+      console.error(`unable to convert cursor to array, or document count issue: ${e}`);
       return { restaurants: [], totalNumRestaurants: 0 };
     } 
   }

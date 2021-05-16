@@ -7,9 +7,9 @@ export default class RestaurantsController {
     
     //create a filters object
     const filters = {}
-    if (req.query.cuisine) filters.cuisine = req.filters.cuisine;
-    else if (req.query.zipcode) filters.zipcode = req.filters.zipcode;
-    else if (req.query.name) filters.zipcode = req.filters.name;
+    if (req.query.cuisine) filters.cuisine = req.query.cuisine;
+    else if (req.query.zipcode) filters.zipcode = req.query.zipcode; 
+    else if (req.query.name) filters.name = req.query.name; 
 
     const { restaurantsList, totalNumRestaurants } = await RestaurantsDAO.getRestaurants({ filters, page, restaurantsPerPage });
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import RestaurantDataService from "../services/restaurant"
+import RestaurantDataService from "../services/restaurant";
 
 const RestaurantsList = (props) => {
   const [restaurants, setRestaurants] = useState([]);
@@ -13,7 +13,7 @@ const RestaurantsList = (props) => {
   useEffect(() => {
     retrieveRestaurants();
     retrieveCuisines();
-  });
+  }, []);
 
   const onChangeSearchName = (e) => {
     setSearchName(e.target.value);
@@ -54,9 +54,7 @@ const RestaurantsList = (props) => {
   const find = (query, by) => {
     RestaurantDataService.find(query, by)
       .then(res => {
-        console.log(`QUERY: ${query}`);
-        console.log(res.data);
-        // setRestaurants(res.data.restaurants);
+        setRestaurants(res.data.restaurants);
       })
       .catch(e => {
         console.error(`unable to find in RestaurantsList: ${e}`);
@@ -71,8 +69,7 @@ const RestaurantsList = (props) => {
     find(searchZipcode, "zipcode");
   }
 
-  const findByCuisine = (e) => {
-    e.preventDefault();
+  const findByCuisine = () => {
     if(searchCuisine === "All Cuisines") {
       refreshList();
     } else {
@@ -140,6 +137,32 @@ const RestaurantsList = (props) => {
           </div>
         </div>
       </div>
+
+      <div className="row">
+        {restaurants.map((restaurant) => {
+          const address = `${restaurant.address.building} ${restaurant.address.street}, ${restaurant.address.zipcode}`;
+          return (
+            <div className="col-lg-4 pb-1">
+              <div className="card">
+                <div className="card-body">
+                  <h5 className="card-title">{restaurant.name}</h5>
+                  <p className="card-text">
+                    <strong>Cuisine: </strong>{restaurant.cuisine}<br/>
+                    <strong>Address: </strong>{address}
+                  </p>
+                  <div className="row">
+                  <Link to={"/restaurants/"+restaurant._id} className="btn btn-primary col-lg-5 mx-1 mb-1">
+                    View Reviews
+                  </Link>
+                  <a target="_blank" href={"https://www.google.com/maps/place/" + address} className="btn btn-primary col-lg-5 mx-1 mb-1">View Map</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
     </div>
   );
 }

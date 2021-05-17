@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -8,7 +8,7 @@ import RestaurantsList from "./components/RestaurantsList";
 import Login from "./components/Login";
 
 function App() {
-  const [user, setUser] = React.useState(null);
+  const [user, setUser] = useState(null);
 
   const login = async (user = null) => {
     setUser(user);

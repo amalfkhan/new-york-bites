@@ -18,7 +18,7 @@ class RestaurantDataService {
   }
   
   updateReview(data) {
-    return http.post("/review", data);
+    return http.put("/review", data);
   }
 
   deleteReview(id, userId) {

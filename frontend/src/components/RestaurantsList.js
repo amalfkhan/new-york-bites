@@ -30,7 +30,6 @@ const RestaurantsList = (props) => {
   const retrieveRestaurants = () => {
     RestaurantDataService.getAll()
       .then(res => {
-        console.log(res.data);
         setRestaurants(res.data.restaurants);
       })
       .catch(e => {
@@ -41,7 +40,6 @@ const RestaurantsList = (props) => {
   const retrieveCuisines = () => {
     RestaurantDataService.getCuisines()
       .then(res => {
-        console.log(res.data);
         setCuisines(["All Cuisines"].concat(res.data));
       })
       .catch(e => {
@@ -56,7 +54,9 @@ const RestaurantsList = (props) => {
   const find = (query, by) => {
     RestaurantDataService.find(query, by)
       .then(res => {
-        setRestaurants(res.data.restaurants);
+        console.log(`QUERY: ${query}`);
+        console.log(res.data);
+        // setRestaurants(res.data.restaurants);
       })
       .catch(e => {
         console.error(`unable to find in RestaurantsList: ${e}`);
@@ -82,10 +82,64 @@ const RestaurantsList = (props) => {
 
   return (
     <div>
-      <form onSubmit={findByCuisine}>
-        <input type="text" value={searchCuisine} onChange={onChangeSearchCuisine} />
-        <input type="submit" value="Submit" />
-      </form>
+      <div className="row pb-1">
+        <div className="input-group col-lg-4">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Search by name"
+            value={searchName}
+            onChange={onChangeSearchName}
+          />
+          <div className="input-group-append">
+            <button
+              className="btn btn-outline-secondary"
+              type="button"
+              onClick={findByName}
+            >
+              Search
+            </button>
+          </div>
+        </div>
+        
+        <div className="input-group col-lg-4">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Search by zipcode"
+            value={searchZipcode}
+            onChange={onChangeSearchZipcode}
+          />
+          <div className="input-group-append">
+            <button
+              className="btn btn-outline-secondary"
+              type="button"
+              onClick={findByZipcode}
+            >
+              Search
+            </button>
+          </div>
+        </div>
+
+        <div className="input-group col-lg-4">
+          <select onChange={onChangeSearchCuisine}>
+             {cuisines.map(cuisine => {
+               return (
+                 <option value={cuisine}> {cuisine} </option>
+               )
+             })}
+          </select>
+          <div className="input-group-append">
+            <button
+              className="btn btn-outline-secondary"
+              type="button"
+              onClick={findByCuisine}
+            >
+              Search
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

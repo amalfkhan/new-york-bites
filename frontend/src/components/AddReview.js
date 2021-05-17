@@ -28,7 +28,6 @@ const AddReview = (props) => {
     }
 
     if (editing) {
-      console.log("updating review")
       data.review_id = props.location.state.currentReview._id;
       RestaurantDataService.updateReview(data)
         .then(res => {
@@ -41,7 +40,6 @@ const AddReview = (props) => {
       RestaurantDataService.createReview(data)
         .then(res => {
           setSubmitted(true);
-          console.log(res.data);
         })
         .catch(e => {
           console.error(`unable to save new review in AddReview: ${e}`);

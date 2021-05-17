@@ -90,6 +90,15 @@ class RestaurantsDAO {
     }
   }
 
+  static async getCuisines() {
+    let cuisines = [];
+    try {
+      cuisines = await restaurants.distinct("cuisine");
+      return cuisines;
+    } catch (e) {
+      console.error(`unable to get cuisines: ${e}`);
+    }
+  }
 }
 
 

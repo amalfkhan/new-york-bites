@@ -12,7 +12,6 @@ export default class ReviewsController {
       const date = new Date();
 
       const reviewResponse = await ReviewsDao.addReview(restaurantId, userInfo, review, date);
-      
       res.json({ status: 'success' });
     
     } catch (e) {
@@ -38,7 +37,6 @@ export default class ReviewsController {
           "unable to update review"
         )
       }
-
       res.json({ status: 'success' });
     
     } catch (e) {
@@ -50,10 +48,9 @@ export default class ReviewsController {
     try {
       const reviewId = req.query.id;
       const userId = req.body.user_id;
-
       const reviewResponse = await ReviewsDao.deleteReview(reviewId, userId);
-
       res.json({ status: 'success' });
+
     } catch (e) {
       res.status(500).json({ error: e.message });
     }

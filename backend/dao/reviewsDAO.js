@@ -8,10 +8,10 @@ export default class ReviewsDAO {
     if (reviews) return
     try {
       reviews = await conn.db(process.env.RESTREVIEWS_NS).collection("reviews");
+
     } catch (e) {
       console.error(`unable to connect to a collection in reviewsDAO: ${e}`);
     }
-
   }
 
   static async addReview(restaurantId, user, review, date) {
@@ -24,6 +24,7 @@ export default class ReviewsDAO {
         restaurant_id: ObjectId(restaurantId),
       }
       return await reviews.insertOne(reviewDoc);
+
     } catch (e) {
       console.error(`unable to post review: ${e}`);
       return { error: e };
@@ -37,6 +38,7 @@ export default class ReviewsDAO {
         { $set: { text: text, date: date } }
       );
       return updateResponse;
+
     } catch (e) {
       console.error(`unable to update review: ${e}`);
       return { error: e }
@@ -48,6 +50,8 @@ export default class ReviewsDAO {
       const deleteResponse = await reviews.deleteOne(
         { user_id: userId, _id: ObjectId(reviewId) },
       );
+      return deleteResponse;
+
     } catch (e) {
       console.error(`unable to delete review: ${e}`);
       return { error: e };

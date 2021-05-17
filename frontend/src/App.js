@@ -3,7 +3,7 @@ import { Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import AddReview from "./components/AddReview";
-import Restaurant from "./components/Restaurants";
+import Restaurant from "./components/Restaurant";
 import RestaurantsList from "./components/RestaurantsList";
 import Login from "./components/Login";
 

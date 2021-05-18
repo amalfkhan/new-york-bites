@@ -17,7 +17,7 @@ class RestaurantsDAO {
     }
   }
 
-  static async getRestaurants ({ filters = null, page = 0, restaurantsPerPage = 20 } = {}) {
+  static async getRestaurants ({ filters = null, page = 1, restaurantsPerPage = 20 } = {}) {
     let query
     if (filters) {
       if ("name" in filters) {
@@ -37,7 +37,7 @@ class RestaurantsDAO {
       return { restaurants: [], totalNumRestaurants: 0 };
     }
 
-    const displayCursor = cursor.limit(restaurantsPerPage).skip(restaurantsPerPage * page);
+    const displayCursor = cursor.limit(restaurantsPerPage).skip(restaurantsPerPage * (page - 1));
     try {
       const restaurantsList = await displayCursor.toArray();
       const totalNumRestaurants = await restaurants.countDocuments(query);

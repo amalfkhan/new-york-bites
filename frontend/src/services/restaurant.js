@@ -1,16 +1,16 @@
 import http from "../http-common";
 
 class RestaurantDataService {
-  getAll(page = 0) {
-    return http.get(`?page=${page}`);
+  getAll(currPage = 1, restaurantsPerPage = 100) {
+    return http.get(`?page=${currPage}&restaurantsPerPage=${restaurantsPerPage}`);
   }
 
   get(id) {
     return http.get(`/id/${id}`);
   }
 
-  find(query, by = "name", page = 0) {
-    return http.get(`?${by}=${query}&page=${page}`);
+  find(query, by = "name", currPage = 1, restaurantsPerPage = 100) {
+    return http.get(`?${by}=${query}&page=${currPage}&restaurantsPerPage=${restaurantsPerPage}`);
   }
 
   createReview(data) {

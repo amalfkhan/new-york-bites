@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import RestaurantDataService from "../services/restaurant";
+import Pagination from './Pagination';
 
 const RestaurantsList = (props) => {
   const [restaurants, setRestaurants] = useState([]);
@@ -9,11 +10,20 @@ const RestaurantsList = (props) => {
   const [searchZipcode, setSearchZipcode] = useState("");
   const [searchCuisine, setSearchCuisine] = useState("");
   const [cuisines, setCuisines] = useState(["All Cuisines"]);
+  const [currPage, setCurrPage] = useState(1);
+  const [searching, setSearching] = useState("");
+  const [totalRestaurants, setTotalRestaurants] = useState(0);
+  const restaurantsPerPage = 100;
 
   useEffect(() => {
-    retrieveRestaurants();
-    retrieveCuisines();
-  }, []);
+    if(searching === "name") { console.log(searchName); findByName(); }
+    else if(searching === "zipcode") { console.log(searchZipcode); findByZipcode(); }
+    else if(searching === "cuisine") { console.log(searchCuisine); findByCuisine(); }
+    else { 
+      retrieveRestaurants();
+      retrieveCuisines();
+    }
+  }, [currPage]);
 
   const onChangeSearchName = (e) => {
     setSearchName(e.target.value);
@@ -28,8 +38,9 @@ const RestaurantsList = (props) => {
   }
 
   const retrieveRestaurants = () => {
-    RestaurantDataService.getAll()
+    RestaurantDataService.getAll(currPage, restaurantsPerPage)
       .then(res => {
+        setTotalRestaurants(res.data.total_restaurants);
         setRestaurants(res.data.restaurants);
       })
       .catch(e => {
@@ -52,8 +63,9 @@ const RestaurantsList = (props) => {
   }
 
   const find = (query, by) => {
-    RestaurantDataService.find(query, by)
+    RestaurantDataService.find(query, by, currPage, restaurantsPerPage)
       .then(res => {
+        setTotalRestaurants(res.data.total_restaurants);
         setRestaurants(res.data.restaurants);
       })
       .catch(e => {
@@ -62,14 +74,17 @@ const RestaurantsList = (props) => {
   }
 
   const findByName = () => {
+    setSearching("name");
     find(searchName, "name");
   }
 
   const findByZipcode = () => {
+    setSearching("zipcode");
     find(searchZipcode, "zipcode");
   }
 
   const findByCuisine = () => {
+    setSearching("cuisine");
     if(searchCuisine === "All Cuisines") {
       refreshList();
     } else {
@@ -137,6 +152,8 @@ const RestaurantsList = (props) => {
           </div>
         </div>
       </div>
+
+      <Pagination totalRestaurants={totalRestaurants} restaurantsPerPage={restaurantsPerPage} setCurrPage={setCurrPage} currPage={currPage}/>
 
       <div className="row">
         {restaurants.map((restaurant) => {

@@ -16,9 +16,9 @@ const RestaurantsList = (props) => {
   const restaurantsPerPage = 100;
 
   useEffect(() => {
-    if(searching === "name") { console.log(searchName); findByName(); }
-    else if(searching === "zipcode") { console.log(searchZipcode); findByZipcode(); }
-    else if(searching === "cuisine") { console.log(searchCuisine); findByCuisine(); }
+    if(searching === "name") { findByName(); }
+    else if(searching === "zipcode") { findByZipcode(); }
+    else if(searching === "cuisine") { findByCuisine(); }
     else { 
       retrieveRestaurants();
       retrieveCuisines();
@@ -65,6 +65,7 @@ const RestaurantsList = (props) => {
   const find = (query, by) => {
     RestaurantDataService.find(query, by, currPage, restaurantsPerPage)
       .then(res => {
+        console.log(`SEARCHING: ${searching} CURRPAGE: ${currPage}`)
         setTotalRestaurants(res.data.total_restaurants);
         setRestaurants(res.data.restaurants);
       })
@@ -92,6 +93,22 @@ const RestaurantsList = (props) => {
     }
   }
 
+  const submitCuisineSearch = () => {
+    setCurrPage(1);
+    console.log("does this ever happen?");
+    findByCuisine();
+  }
+
+  const submitZipcodeSearch = () => {
+    setCurrPage(1);
+    findByZipcode();
+  }
+
+  const submitNameSearch = () => {
+    setCurrPage(1);
+    findByName();
+  }
+
   return (
     <div>
       <div className="row pb-1">
@@ -107,7 +124,7 @@ const RestaurantsList = (props) => {
             <button
               className="btn btn-outline-secondary"
               type="button"
-              onClick={findByName}
+              onClick={submitNameSearch}
             >
               Search
             </button>
@@ -126,7 +143,7 @@ const RestaurantsList = (props) => {
             <button
               className="btn btn-outline-secondary"
               type="button"
-              onClick={findByZipcode}
+              onClick={submitZipcodeSearch}
             >
               Search
             </button>
@@ -145,7 +162,7 @@ const RestaurantsList = (props) => {
             <button
               className="btn btn-outline-secondary"
               type="button"
-              onClick={findByCuisine}
+              onClick={submitCuisineSearch}
             >
               Search
             </button>
@@ -180,6 +197,7 @@ const RestaurantsList = (props) => {
         })}
       </div>
 
+      <Pagination totalRestaurants={totalRestaurants} restaurantsPerPage={restaurantsPerPage} setCurrPage={setCurrPage} currPage={currPage}/>
     </div>
   );
 }

@@ -12,10 +12,10 @@ export default class UsersDAO {
     }
   }
 
-  static async registerUser( { name, email, password } ) {
+  static async registerUser( { username, email, password } ) {
     try {
       const userDoc = { 
-        name: name,
+        username: username,
         email: email,
         password: password,
         date: new Date()
@@ -30,7 +30,7 @@ export default class UsersDAO {
 
   static async getUserByEmail (email) {
     try {
-      return await users.findOne({ email: email });;
+      return await users.findOne({ email: email });
     } catch (e) {
       console.error(`unable to aggregate from pipline: ${e}`);
       throw e;

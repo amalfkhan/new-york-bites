@@ -14,6 +14,6 @@ router.route("/review")
   .put(ReviewsCtrl.apiUpdateReview)
   .delete(ReviewsCtrl.apiDeleteReview);
 router.route("/user/register").post(UsersCtrl.apiRegisterUser);
-// router.route("/login").post(UsersCtrl.apiLoginUser);
+router.route("/user/login").post(UsersCtrl.apiLoginUser);
 
 export default router;

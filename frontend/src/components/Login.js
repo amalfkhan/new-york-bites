@@ -22,7 +22,7 @@ const Login = (props) => {
     // });
     UserDataService.cookiePath()
     .then(res => {
-
+      console.log(res);
     })
   }
 

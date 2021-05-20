@@ -10,7 +10,7 @@ class UserDataService {
   }
   
   cookiePath() {
-    return http.get('/set-cookies');
+    return http.get('/get-cookies');
   }
 }
 

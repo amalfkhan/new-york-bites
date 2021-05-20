@@ -19,9 +19,16 @@ router.route("/user/login").post(UsersCtrl.apiLoginUser);
 
 router.route("/set-cookies").get((req, res) => {
   res
-  .setHeader("Access-Control-Allow-Origin", "http://localhost:3000")
-  .cookie("newUser", "true")
+  .cookie("newUser", false)
+  .cookie("isEmployee", true)
   .json({teetoo: 'cookies-set'});
+});
+
+router.route("/get-cookies").get((req, res) => {
+  const cookies = req.cookies
+  console.log(cookies);
+  res.json(cookies);
+
 });
 
 export default router;

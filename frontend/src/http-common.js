@@ -1,8 +1,10 @@
-import axios from 'axios';
+import axios from "axios";
 
 export default axios.create({
-  baseURL: "https://localhost:5000/api/v1/restaurants",
+  withCredentials: true,
+  baseURL: "http://localhost:5000/api/v1/restaurants",
   headers: {
-    "Content-type": "application/json"
+    "Content-type": "application/json",
+    // "auth-token": localStorage.getItem('token')
   }
 });

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import ReactPaginate from 'react-paginate';
+import ReactPaginate from "react-paginate";
 
 const Pagination = ({ totalRestaurants, restaurantsPerPage, setCurrPage }) => {
   return (

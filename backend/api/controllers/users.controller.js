@@ -46,12 +46,12 @@ export default class UsersController {
 
   static async apiLoginUser(req, res, next) {
     const validation = loginValidation(req.body);
-    if(validation.error) return res.status(400).json({ error: validation.error.details[0].message });
+    if(validation.error) return res.status(400).json({ auth: false, error: validation.error.details[0].message });
 
     //check if user exists
     try {
       var user = await UsersDAO.getUserByEmail(req.body.email);
-      if(!user) return res.status(400).json({ status: "incorrect email" });
+      if(!user) return res.status(400).json({ auth: false, status: "incorrect email" });
     } catch (e) {
       res.status(500).json({ error: e.message });
     }
@@ -59,7 +59,7 @@ export default class UsersController {
     //check if password is correct
     try {
       var validPassword = await bcrypt.compare(req.body.password, user.password);
-      if(!validPassword) return res.status(400).json({ status: "incorrect password" });
+      if(!validPassword) return res.status(400).json({ auth: false, status: "incorrect password" });
     } catch (e) {
       res.status(500).json({ error: e.message });
     }
@@ -67,7 +67,15 @@ export default class UsersController {
     //create and assign a token
     try {
       var token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET);
-      res.header('auth-token', token).send(token);
+      res
+        .header("auth-token", token)
+        .json({ 
+          auth: true,
+          token: token, 
+          userid: user._id,
+          username: user.username,
+          email: user.email
+        });
     } catch (e) {
       res.status(500).json({ error: e.message });
     }

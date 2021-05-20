@@ -1,9 +1,10 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
+import UserDataService from "../services/user";
 
 const Login = (props) => {
   const [user, setUser] = useState({
-    name: "",
-    id: ""
+    email: "",
+    password: ""
   });
 
   const handleInputChange = (e) => {
@@ -11,8 +12,18 @@ const Login = (props) => {
   }
   
   const login = () => {
-    props.login(user);
-    props.history.push("/");
+    // UserDataService.loginUser(user)
+    // .then(res => {
+    //   if(res.data.auth) localStorage.setItem("token", res.data.token);
+    //   props.history.push("/");
+    // })
+    // .catch(e => {
+    //   console.error(`unable to login user in Login.js: ${e}`);
+    // });
+    UserDataService.cookiePath()
+    .then(res => {
+
+    })
   }
 
   return (
@@ -20,28 +31,28 @@ const Login = (props) => {
       <div className="submit-form">
         <div>
           <div className="form-group">
-            <label htmlFor="user">Username</label>
+            <label htmlFor="user">Email</label>
             <input
               type="text"
               className="form-control"
-              id="name"
+              id="email"
               required
-              value={user.name}
+              value={user.email}
               onChange={handleInputChange}
-              name="name"
+              name="email"
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="id">ID</label>
+            <label htmlFor="id">Password</label>
             <input
               type="text"
               className="form-control"
-              id="id"
+              id="password"
               required
-              value={user.id}
+              value={user.password}
               onChange={handleInputChange}
-              name="id"
+              name="password"
             />
           </div>
 

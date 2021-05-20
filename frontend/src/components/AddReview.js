@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import RestaurantDataService from "../services/restaurant";
+import ReviewDataServices from "../services/review";
 
 const AddReview = (props) => {
   let initialReviewState = "";
@@ -29,7 +29,7 @@ const AddReview = (props) => {
 
     if (editing) {
       data.review_id = props.location.state.currentReview._id;
-      RestaurantDataService.updateReview(data)
+      ReviewDataServices.updateReview(data)
         .then(res => {
           setSubmitted(true);
         })
@@ -37,7 +37,7 @@ const AddReview = (props) => {
           console.error(`unable to edit review in AddReview: ${e}`);
         });
     } else {
-      RestaurantDataService.createReview(data)
+      ReviewDataServices.createReview(data)
         .then(res => {
           setSubmitted(true);
         })

@@ -13,18 +13,6 @@ class RestaurantDataService {
     return http.get(`?${by}=${query}&page=${currPage}&restaurantsPerPage=${restaurantsPerPage}`);
   }
 
-  createReview(data) {
-    return http.post("/review", data);
-  }
-  
-  updateReview(data) {
-    return http.put("/review", data);
-  }
-
-  deleteReview(id, userId) {
-    return http.delete(`/review?id=${id}`, { data: {user_id: userId} });
-  }
-
   getCuisines(id) {
     return http.get(`/cuisines`);
   }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -10,12 +10,8 @@ import Login from "./components/Login";
 function App() {
   const [user, setUser] = useState(null);
 
-  const login = async (user = null) => {
-    setUser(user);
-  }
+  const logout = () => {
 
-  const logout = async () => {
-    setUser(null);
   }
 
   return (
@@ -55,7 +51,7 @@ function App() {
           <Route 
             path="/login"
             render={(props) => (
-              <Login {...props} login={login}/>
+              <Login {...props} />
             )}
           />
         </Switch>

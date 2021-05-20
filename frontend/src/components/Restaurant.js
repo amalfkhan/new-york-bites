@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import RestaurantDataService from "../services/restaurant";
+import ReviewDataServices from "../services/review";
 
 const Restaurant = (props) => {
   const [restaurant, setRestaurant] = useState({
@@ -26,7 +27,7 @@ const Restaurant = (props) => {
   }
 
   const deleteReview = (reviewId, index) => {
-    RestaurantDataService.deleteReview(reviewId, props.user.id)
+    ReviewDataServices.deleteReview(reviewId, props.user.id)
       .then(res => {
         setRestaurant((prevState) => {
           prevState.reviews.splice(index, 1)

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import RestaurantDataService from "../services/restaurant";
-import Pagination from './Pagination';
+import Pagination from "./Pagination";
 
 const RestaurantsList = (props) => {
   const [restaurants, setRestaurants] = useState([]);
@@ -16,14 +16,15 @@ const RestaurantsList = (props) => {
   const restaurantsPerPage = 100;
 
   useEffect(() => {
-    if(searching === "name") { findByName(); }
-    else if(searching === "zipcode") { findByZipcode(); }
-    else if(searching === "cuisine") { findByCuisine(); }
-    else { 
+    // if(searching === "name") { findByName(); }
+    // else if(searching === "zipcode") { findByZipcode(); }
+    // else if(searching === "cuisine") { findByCuisine(); }
+    // else { 
       retrieveRestaurants();
       retrieveCuisines();
-    }
-  }, [currPage]);
+    // }
+  // }, [currPage]);
+}, []);
 
   const onChangeSearchName = (e) => {
     setSearchName(e.target.value);
@@ -65,7 +66,7 @@ const RestaurantsList = (props) => {
   const find = (query, by) => {
     RestaurantDataService.find(query, by, currPage, restaurantsPerPage)
       .then(res => {
-        console.log(`SEARCHING: ${searching} CURRPAGE: ${currPage}`)
+        // console.log(`SEARCHING: ${searching} CURRPAGE: ${currPage}`)
         setTotalRestaurants(res.data.total_restaurants);
         setRestaurants(res.data.restaurants);
       })
@@ -75,17 +76,17 @@ const RestaurantsList = (props) => {
   }
 
   const findByName = () => {
-    setSearching("name");
+    // setSearching("name");
     find(searchName, "name");
   }
 
   const findByZipcode = () => {
-    setSearching("zipcode");
+    // setSearching("zipcode");
     find(searchZipcode, "zipcode");
   }
 
   const findByCuisine = () => {
-    setSearching("cuisine");
+    // setSearching("cuisine");
     if(searchCuisine === "All Cuisines") {
       refreshList();
     } else {
@@ -94,18 +95,18 @@ const RestaurantsList = (props) => {
   }
 
   const submitCuisineSearch = () => {
-    setCurrPage(1);
-    console.log("does this ever happen?");
+    // setCurrPage(1);
+    // console.log("does this ever happen?");
     findByCuisine();
   }
 
   const submitZipcodeSearch = () => {
-    setCurrPage(1);
+    // setCurrPage(1);
     findByZipcode();
   }
 
   const submitNameSearch = () => {
-    setCurrPage(1);
+    // setCurrPage(1);
     findByName();
   }
 
@@ -170,7 +171,7 @@ const RestaurantsList = (props) => {
         </div>
       </div>
 
-      <Pagination totalRestaurants={totalRestaurants} restaurantsPerPage={restaurantsPerPage} setCurrPage={setCurrPage} currPage={currPage}/>
+      {/* <Pagination totalRestaurants={totalRestaurants} restaurantsPerPage={restaurantsPerPage} setCurrPage={setCurrPage} currPage={currPage}/> */}
 
       <div className="row">
         {restaurants.map((restaurant) => {
@@ -197,7 +198,7 @@ const RestaurantsList = (props) => {
         })}
       </div>
 
-      <Pagination totalRestaurants={totalRestaurants} restaurantsPerPage={restaurantsPerPage} setCurrPage={setCurrPage} currPage={currPage}/>
+      {/* <Pagination totalRestaurants={totalRestaurants} restaurantsPerPage={restaurantsPerPage} setCurrPage={setCurrPage} currPage={currPage}/> */}
     </div>
   );
 }

@@ -8,23 +8,24 @@ const RestaurantsList = (props) => {
   const [restaurants, setRestaurants] = useState([]);
   const [searchName, setSearchName] = useState("");
   const [searchZipcode, setSearchZipcode] = useState("");
-  const [searchCuisine, setSearchCuisine] = useState("");
+  const [searchCuisine, setSearchCuisine] = useState("All Cuisines");
   const [cuisines, setCuisines] = useState(["All Cuisines"]);
   const [currPage, setCurrPage] = useState(1);
-  const [searching, setSearching] = useState("");
+  const [searching, setSearching] = useState("all");
   const [totalRestaurants, setTotalRestaurants] = useState(0);
   const restaurantsPerPage = 100;
+  var newSearch = false;
 
   useEffect(() => {
-    // if(searching === "name") { findByName(); }
-    // else if(searching === "zipcode") { findByZipcode(); }
-    // else if(searching === "cuisine") { findByCuisine(); }
-    // else { 
+    window.scrollTo(0, 0);
+    if(searching === "name") { findByName(); }
+    else if(searching === "zipcode") { findByZipcode(); }
+    else if(searching === "cuisine") { findByCuisine(); }
+    else { 
       retrieveRestaurants();
       retrieveCuisines();
-    // }
-  // }, [currPage]);
-}, []);
+    }
+  }, [currPage]);
 
   const onChangeSearchName = (e) => {
     setSearchName(e.target.value);
@@ -39,7 +40,9 @@ const RestaurantsList = (props) => {
   }
 
   const retrieveRestaurants = () => {
-    RestaurantDataService.getAll(currPage, restaurantsPerPage)
+    var page = currPage;
+    if(newSearch) page = 1
+    RestaurantDataService.getAll(page, restaurantsPerPage)
       .then(res => {
         setTotalRestaurants(res.data.total_restaurants);
         setRestaurants(res.data.restaurants);
@@ -64,9 +67,10 @@ const RestaurantsList = (props) => {
   }
 
   const find = (query, by) => {
-    RestaurantDataService.find(query, by, currPage, restaurantsPerPage)
+    var page = currPage;
+    if(newSearch) page = 1;
+    RestaurantDataService.find(query, by, page, restaurantsPerPage)
       .then(res => {
-        // console.log(`SEARCHING: ${searching} CURRPAGE: ${currPage}`)
         setTotalRestaurants(res.data.total_restaurants);
         setRestaurants(res.data.restaurants);
       })
@@ -76,38 +80,22 @@ const RestaurantsList = (props) => {
   }
 
   const findByName = () => {
-    // setSearching("name");
+    setSearching("name");
     find(searchName, "name");
   }
 
   const findByZipcode = () => {
-    // setSearching("zipcode");
+    setSearching("zipcode");
     find(searchZipcode, "zipcode");
   }
 
   const findByCuisine = () => {
-    // setSearching("cuisine");
+    setSearching("cuisine");
     if(searchCuisine === "All Cuisines") {
       refreshList();
     } else {
       find(searchCuisine, "cuisine");
     }
-  }
-
-  const submitCuisineSearch = () => {
-    // setCurrPage(1);
-    // console.log("does this ever happen?");
-    findByCuisine();
-  }
-
-  const submitZipcodeSearch = () => {
-    // setCurrPage(1);
-    findByZipcode();
-  }
-
-  const submitNameSearch = () => {
-    // setCurrPage(1);
-    findByName();
   }
 
   return (
@@ -125,7 +113,8 @@ const RestaurantsList = (props) => {
             <button
               className="btn btn-outline-secondary"
               type="button"
-              onClick={submitNameSearch}
+              value="name"
+              onClick={ () => { newSearch = true; findByName() }}
             >
               Search
             </button>
@@ -137,14 +126,15 @@ const RestaurantsList = (props) => {
             type="text"
             className="form-control"
             placeholder="Search by zipcode"
-            value={searchZipcode}
+            name={searchZipcode}
             onChange={onChangeSearchZipcode}
           />
           <div className="input-group-append">
             <button
               className="btn btn-outline-secondary"
               type="button"
-              onClick={submitZipcodeSearch}
+              value="zipcode"
+              onClick={ () => { newSearch = true; findByZipcode() }}
             >
               Search
             </button>
@@ -163,15 +153,14 @@ const RestaurantsList = (props) => {
             <button
               className="btn btn-outline-secondary"
               type="button"
-              onClick={submitCuisineSearch}
+              value="cuisine"
+              onClick={ () => { newSearch = true; findByCuisine() } }
             >
               Search
             </button>
           </div>
         </div>
       </div>
-
-      {/* <Pagination totalRestaurants={totalRestaurants} restaurantsPerPage={restaurantsPerPage} setCurrPage={setCurrPage} currPage={currPage}/> */}
 
       <div className="row">
         {restaurants.map((restaurant) => {
@@ -198,7 +187,7 @@ const RestaurantsList = (props) => {
         })}
       </div>
 
-      {/* <Pagination totalRestaurants={totalRestaurants} restaurantsPerPage={restaurantsPerPage} setCurrPage={setCurrPage} currPage={currPage}/> */}
+      <Pagination totalRestaurants={totalRestaurants} restaurantsPerPage={restaurantsPerPage} setCurrPage={setCurrPage} currPage={currPage} newSearch={newSearch}/>
     </div>
   );
 }

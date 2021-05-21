@@ -12,6 +12,7 @@ export default class UsersDAO {
     }
   }
 
+  //create a doc with the user account info, add it to the database
   static async registerUser( { username, email, password } ) {
     try {
       const userDoc = { 

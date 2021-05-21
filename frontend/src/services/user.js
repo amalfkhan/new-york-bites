@@ -8,10 +8,6 @@ class UserDataService {
   loginUser(data) {
     return http.post("/user/login", data);
   }
-  
-  cookiePath() {
-    return http.get('/get-cookies');
-  }
 }
 
 

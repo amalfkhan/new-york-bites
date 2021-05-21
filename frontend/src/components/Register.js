@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from "react";
 import UserDataService from "../services/user";
 
-const Login = (props) => {
+const Register = (props) => {
   const [user, setUser] = useState({
+    username: "",
     email: "",
     password: ""
   });
@@ -11,13 +12,13 @@ const Login = (props) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   }
   
-  const login = () => {
-    UserDataService.cookiePath(user)
+  const register = () => {
+    UserDataService.registerUser(user)
     .then(res => {
-      console.log(res);
+      props.history.push("/");
     })
     .catch(e => {
-      console.error(`unable to login user in Login.js: ${e}`);
+      console.error(`unable to register user in Register.js: ${e}`);
     });
   }
 
@@ -25,6 +26,19 @@ const Login = (props) => {
     <div>
       <div className="submit-form">
         <div>
+          <div className="form-group">
+            <label htmlFor="user">Username</label>
+            <input
+              type="text"
+              className="form-control"
+              id="username"
+              required
+              value={user.username}
+              onChange={handleInputChange}
+              name="username"
+            />
+          </div>
+
           <div className="form-group">
             <label htmlFor="user">Email</label>
             <input
@@ -51,8 +65,8 @@ const Login = (props) => {
             />
           </div>
 
-          <button onClick={login} className="btn btn-primary">
-            Login
+          <button onClick={register} className="btn btn-primary">
+            Register
           </button>
         </div>
       </div> 
@@ -60,4 +74,4 @@ const Login = (props) => {
   );
 }
 
-export default Login;
+export default Register;

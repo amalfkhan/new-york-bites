@@ -17,18 +17,4 @@ router.route("/review")
 router.route("/user/register").post(UsersCtrl.apiRegisterUser);
 router.route("/user/login").post(UsersCtrl.apiLoginUser);
 
-router.route("/set-cookies").get((req, res) => {
-  res
-  .cookie("newUser", false)
-  .cookie("isEmployee", true)
-  .json({teetoo: 'cookies-set'});
-});
-
-router.route("/get-cookies").get((req, res) => {
-  const cookies = req.cookies
-  console.log(cookies);
-  res.json(cookies);
-
-});
-
 export default router;

@@ -6,6 +6,7 @@ import AddReview from "./components/AddReview";
 import Restaurant from "./components/Restaurant";
 import RestaurantsList from "./components/RestaurantsList";
 import Login from "./components/Login";
+import Register from "./components/Register";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -27,7 +28,12 @@ function App() {
           <li className="nav-item">
             { user 
               ? ( <a onClick={logout} className="nav-link">Logout {user.name}</a> )
-              : ( <Link to={"/login"} className="nav-link">Login</Link> )
+              : ( 
+                  <>
+                    <Link to={"/login"} className="nav-link">Login</Link> 
+                    <Link to={"/register"} className="nav-link">Register</Link> 
+                  </>
+                )
             }
           </li>
         </div>
@@ -52,6 +58,12 @@ function App() {
             path="/login"
             render={(props) => (
               <Login {...props} />
+            )}
+          />
+          <Route 
+            path="/register"
+            render={(props) => (
+              <Register {...props} />
             )}
           />
         </Switch>

@@ -93,12 +93,7 @@ const Restaurant = (props) => {
 
           </div>
         ) 
-        : (
-          <div>
-            <br />
-            <p>No restaurant selected.</p>
-          </div>
-        )}
+        : (<></>)}
       </div>
     </div>
   );

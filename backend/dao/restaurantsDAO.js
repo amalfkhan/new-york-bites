@@ -13,6 +13,7 @@ class RestaurantsDAO {
         restaurants = await conn.db(process.env.RESTREVIEWS_NS).collection("restaurants"); //env variable points to project -> cluster -> database(sample_restaurants). restaurants is the collection in that - @NOTE
       } catch (e) {
         console.error(`unable to connect to a collection in restaurantsDAO: ${e}`);
+        return { error: e };
       } 
     }
   }
@@ -50,6 +51,13 @@ class RestaurantsDAO {
 
   static async getRestaurantById (id) {
     try {
+      const restaurantData = await restaurants.findOne({ _id: new ObjectId(id) });
+      if(!restaurantData) return null;
+    } catch (e) {
+      return { error: e }
+    }
+
+    try {
       const pipeline = [
         {        
           $match: { _id: new ObjectId(id), }
@@ -80,13 +88,14 @@ class RestaurantsDAO {
         {
           $addFields: {
             reviews: "$reviews",
-          },
+          }, 
         },
       ]
+      // console.log("finished pipeline");
       return await restaurants.aggregate(pipeline).next();
     } catch (e) {
       console.error(`unable to aggregate from pipline: ${e}`);
-      throw e;
+      return { error: e };
     }
   }
 
@@ -97,6 +106,7 @@ class RestaurantsDAO {
       return cuisines;
     } catch (e) {
       console.error(`unable to get cuisines: ${e}`);
+      return { error: e };
     }
   }
 }

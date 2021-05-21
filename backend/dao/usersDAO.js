@@ -22,7 +22,6 @@ export default class UsersDAO {
         date: new Date()
       }
       return await users.insertOne(userDoc);
-
     } catch (e) {
       console.error(`unable to register user in usersDAO: ${e}`);
       return { error: e };
@@ -34,7 +33,7 @@ export default class UsersDAO {
       return await users.findOne({ email: email });
     } catch (e) {
       console.error(`unable to aggregate from pipline: ${e}`);
-      throw e;
+      return { error: e };
     }
   }  
 }

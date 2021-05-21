@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import UserDataService from "../services/user";
 
 const Login = (props) => {
+  const [error, setError] = useState("");
   const [user, setUser] = useState({
     email: "",
     password: ""
@@ -12,11 +13,12 @@ const Login = (props) => {
   }
   
   const login = () => {
-    UserDataService.cookiePath(user)
+    UserDataService.loginUser(user)
     .then(res => {
-      console.log(res);
+      if(res.data.userid) props.history.push("/");
     })
     .catch(e => {
+      setError(e.response.data.error);
       console.error(`unable to login user in Login.js: ${e}`);
     });
   }
@@ -25,6 +27,10 @@ const Login = (props) => {
     <div>
       <div className="submit-form">
         <div>
+          { error 
+            ? <div>{error}</div>
+            : ""
+          }
           <div className="form-group">
             <label htmlFor="user">Email</label>
             <input

@@ -7,6 +7,7 @@ import Restaurant from "./components/Restaurant";
 import RestaurantsList from "./components/RestaurantsList";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import FourZeroFour from "./components/FourZeroFour"
 
 function App() {
   const [user, setUser] = useState(null);
@@ -64,6 +65,12 @@ function App() {
             path="/register"
             render={(props) => (
               <Register {...props} />
+            )}
+          />
+          <Route 
+            path="/404"
+            render={() => (
+              <FourZeroFour />
             )}
           />
         </Switch>

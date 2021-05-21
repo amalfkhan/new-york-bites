@@ -15,7 +15,7 @@ export default class UsersController {
 
     try { //check if there's already an account associated with the data
       const emailExists = await UsersDAO.getUserByEmail(req.body.email);
-      if(emailExists) return res.status(400).json({ status: "email already associated with an accout" });
+      if(emailExists) return res.status(400).json({ error: "email already associated with an accout" });
     } catch (e) {
       res.status(500).json({ error: e.message });
     }
@@ -35,11 +35,11 @@ export default class UsersController {
       }
       const registerResponse = await UsersDAO.registerUser(newUser);
       const token = createToken(registerResponse.ops[0]._id, maxAge);
-      if(!token) res.status(500).json({ error: "error creating token" })
+      if(!token) res.status(500).json({ error: "error creating token" });
       res
         .cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000})
         .json({
-         _id: registerResponse.ops[0]._id,
+         userid: registerResponse.ops[0]._id,
          username: registerResponse.ops[0].username,
          email: registerResponse.ops[0].email,
       });
@@ -49,30 +49,29 @@ export default class UsersController {
   }
 
   static async apiLoginUser(req, res, next) {
+    //check validity of data user sent
     const validation = loginValidation(req.body);
-    if(validation.error) return res.status(400).json({ auth: false, error: validation.error.details[0].message });
+    if(validation.error) return res.status(400).json({ error: validation.error.details[0].message });
 
     try { //check if user exists
       var user = await UsersDAO.getUserByEmail(req.body.email);
-      if(!user) return res.status(400).json({ auth: false, status: "incorrect email" });
+      if(!user) return res.status(400).json({ error: "incorrect email" });
     } catch (e) {
       res.status(500).json({ error: e.message });
     }
 
     try { //check if password is correct
       var validPassword = await bcrypt.compare(req.body.password, user.password);
-      if(!validPassword) return res.status(400).json({ auth: false, status: "incorrect password" });
+      if(!validPassword) return res.status(400).json({ error: "incorrect password" });
     } catch (e) {
       res.status(500).json({ error: e.message });
     }
     
     try { //create and assign a token
-      // var token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET);
+      var token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET);
       res
-        // .header("auth-token", token)
+        .cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000})
         .json({ 
-          // auth: true,
-          // token: token, 
           userid: user._id,
           username: user.username,
           email: user.email

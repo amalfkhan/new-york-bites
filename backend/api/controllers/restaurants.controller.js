@@ -1,4 +1,5 @@
 import RestaurantsDAO from "../../dao/restaurantsDAO.js";
+import objectidValidation from "../validation/objectid.validation.js"
 
 export default class RestaurantsController {
   static async apiGetRestaurants(req, res, next) {
@@ -10,27 +11,35 @@ export default class RestaurantsController {
     else if (req.query.zipcode) filters.zipcode = req.query.zipcode; 
     else if (req.query.name) filters.name = req.query.name; 
 
-    const { restaurantsList, totalNumRestaurants } = await RestaurantsDAO.getRestaurants({ filters, page, restaurantsPerPage });
-
-    let response = {
-      restaurants: restaurantsList,
-      page: page,
-      filters: filters,
-      enteries_per_page: restaurantsPerPage,
-      total_restaurants: totalNumRestaurants
+    try {
+      const retrievedRestaurants = await RestaurantsDAO.getRestaurants({ filters, page, restaurantsPerPage });
+      if (!retrievedRestaurants) {
+        console.error(`could not find restaurant: ${id}`);
+        return res.status(500).json({ error: e });
+      }
+      let response = {
+        restaurants: retrievedRestaurants.restaurantsList,
+        page: page,
+        filters: filters,
+        enteries_per_page: restaurantsPerPage,
+        total_restaurants: retrievedRestaurants.totalNumRestaurants
+      }
+      res.json(response);
+    } catch (e){
+      console.error(`restaurants retrival issue: ${e}`);
+      res.status(500).json({ error: e });
     }
-
-    res.json(response);
   }
 
   static async apiGetRestaurantById(req, res, next) {
     try {
       let id = req.params.id || {};
-      let restaurant = await RestaurantsDAO.getRestaurantById(id);
+      if(!objectidValidation(id)) return res.status(400).json({ error: "invalid restuarant id" });
+      const restaurant = await RestaurantsDAO.getRestaurantById(id);
+      console.log(restaurant)
       if (!restaurant) {
         console.error(`could not find restaurant: ${id}`);
-        res.status(400).json({ error: e });
-        return;
+        return res.status(400).json({ error: e });
       }
       res.json(restaurant);
     } catch (e) {

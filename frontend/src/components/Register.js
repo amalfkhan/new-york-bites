@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import UserDataService from "../services/user";
 
 const Register = (props) => {
+  const [error, setError] = useState("");
   const [user, setUser] = useState({
     username: "",
     email: "",
@@ -15,9 +16,11 @@ const Register = (props) => {
   const register = () => {
     UserDataService.registerUser(user)
     .then(res => {
-      props.history.push("/");
+      console.log(res);
+      // if(res.data.userid) props.history.push("/");
     })
     .catch(e => {
+      setError(e.response.data.error);
       console.error(`unable to register user in Register.js: ${e}`);
     });
   }
@@ -26,6 +29,10 @@ const Register = (props) => {
     <div>
       <div className="submit-form">
         <div>
+          { error 
+            ? <div>{error}</div>
+            : ""
+          }
           <div className="form-group">
             <label htmlFor="user">Username</label>
             <input

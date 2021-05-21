@@ -4,13 +4,7 @@ import RestaurantDataService from "../services/restaurant";
 import ReviewDataServices from "../services/review";
 
 const Restaurant = (props) => {
-  const [restaurant, setRestaurant] = useState({
-    id: null,
-    name: "",
-    address: {},
-    cuisine: "",
-    reviews: []
-  });
+  const [restaurant, setRestaurant] = useState();
   
   useEffect(() => {
     getRestaurant(props.match.params.id);
@@ -19,10 +13,12 @@ const Restaurant = (props) => {
   const getRestaurant = (id) => {
     RestaurantDataService.get(id)
       .then(res => {
+        console.log(res);
         setRestaurant(res.data);
       })
       .catch(e => {
         console.error(`unable to retrieve restaurant in Restaurant: ${e}`);
+        props.history.push("/404");
       });
   }
 

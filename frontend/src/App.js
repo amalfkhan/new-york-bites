@@ -42,36 +42,50 @@ function App() {
 
       <div className="container mt-3">
         <Switch>
-          <Route exact path={["/", "/restaurants"]} component={RestaurantsList} />
+          <Route 
+            exact 
+            path={["/", "/restaurants"]} 
+            component={RestaurantsList} 
+          />
           <Route 
             path="/restaurants/:id/review"
             render={(props) => (
               <AddReview {...props} user={user}/>
             )}
           />
-          <Route 
+          <Route
+            exact
             path="/restaurants/:id"
             render={(props) => (
               <Restaurant {...props} user={user}/>
             )}
           />
           <Route 
+            exact
             path="/login"
             render={(props) => (
               <Login {...props} />
             )}
           />
           <Route 
+            exact
             path="/register"
             render={(props) => (
               <Register {...props} />
             )}
           />
-          <Route 
+          <Route
+            exact 
             path="/404"
             render={() => (
               <FourZeroFour />
             )}
+          />
+          <Route 
+            path=""
+            render={() => (
+              <FourZeroFour />
+            )} 
           />
         </Switch>
       </div>

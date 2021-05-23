@@ -1,7 +1,12 @@
-import React, {useEffect, useState} from "react";
-import UserDataService from "../services/user";
+import React, { useContext, useState } from "react";
+import UserDataService from "../services/user.service";
 
-const Login = (props) => {
+import { useHistory } from "react-router-dom";
+import AuthContext from "../context/AuthContext";
+
+const Login = () => {
+  const { getLoggedIn } = useContext(AuthContext);
+  const history = useHistory();
   const [error, setError] = useState("");
   const [user, setUser] = useState({
     email: "",
@@ -11,26 +16,22 @@ const Login = (props) => {
   const handleInputChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   }
-  
-  const login = () => {
-    UserDataService.loginUser(user)
-    .then(res => {
-      if(res.data.userid) props.history.push("/");
-    })
-    .catch(e => {
-      setError(e.response.data.error);
-      console.error(`unable to login user in Login.js: ${e}`);
-    });
+
+  const login = async () => {
+    try {
+      await UserDataService.loginUser(user);
+      await getLoggedIn();
+      history.push("/");
+    } catch (e) {
+      if (e.response) setError(e.response.data.error); // => the response payload 
+    }
   }
 
   return (
     <div>
       <div className="submit-form">
         <div>
-          { error 
-            ? <div>{error}</div>
-            : ""
-          }
+          <div>{error}</div>
           <div className="form-group">
             <label htmlFor="user">Email</label>
             <input

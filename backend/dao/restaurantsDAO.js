@@ -91,7 +91,6 @@ class RestaurantsDAO {
           }, 
         },
       ]
-      // console.log("finished pipeline");
       return await restaurants.aggregate(pipeline).next();
     } catch (e) {
       console.error(`unable to aggregate from pipline: ${e}`);

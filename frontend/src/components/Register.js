@@ -1,38 +1,38 @@
-import React, {useEffect, useState} from "react";
-import UserDataService from "../services/user";
+import React, { useState, useContext } from "react";
+import UserDataService from "../services/user.service";
+import { useHistory } from "react-router-dom";
+import AuthContext from "../context/AuthContext";
 
 const Register = (props) => {
+  const { getLoggedIn } = useContext(AuthContext);
+  const history = useHistory();
   const [error, setError] = useState("");
   const [user, setUser] = useState({
     username: "",
     email: "",
-    password: ""
+    password: "",
+    verifyPassword: ""
   });
-
+  
   const handleInputChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   }
   
-  const register = () => {
-    UserDataService.registerUser(user)
-    .then(res => {
-      console.log(res);
-      // if(res.data.userid) props.history.push("/");
-    })
-    .catch(e => {
-      setError(e.response.data.error);
-      console.error(`unable to register user in Register.js: ${e}`);
-    });
+  const register = async () => {
+    try {
+      await UserDataService.registerUser(user);
+      await getLoggedIn();
+      history.push("/");
+    } catch (e) {
+      if (e.response) setError(e.response.data.error); // => the response payload 
+    }
   }
 
   return (
     <div>
       <div className="submit-form">
         <div>
-          { error 
-            ? <div>{error}</div>
-            : ""
-          }
+          <div>{error}</div>
           <div className="form-group">
             <label htmlFor="user">Username</label>
             <input
@@ -69,6 +69,19 @@ const Register = (props) => {
               value={user.password}
               onChange={handleInputChange}
               name="password"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="id">Verify Password</label>
+            <input
+              type="text"
+              className="form-control"
+              id="verifyPassword"
+              required
+              value={user.verifyPassword}
+              onChange={handleInputChange}
+              name="verifyPassword"
             />
           </div>
 

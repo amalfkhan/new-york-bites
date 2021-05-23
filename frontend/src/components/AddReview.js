@@ -1,27 +1,26 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { Link, useHistory } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import ReviewDataServices from "../services/review";
-import RestaurantDataService from "../services/restaurant"
-import restaurant from "../services/restaurant";
+import AuthContext from "../context/AuthContext";
+import ReviewDataServices from "../services/review.service";
+import RestaurantDataService from "../services/restaurant.service"
+import restaurant from "../services/restaurant.service";
 
 const AddReview = (props) => {
   let initialReviewState = "";
   let editing = false;
-  var restuarant;
+  const history = useHistory();
+  const { loggedIn } = useContext(AuthContext);
 
   useEffect(() => {
     getRestaurant(props.match.params.id);
-  }, [props.match.params.id]); //only call if this is updated
+  }, [props.match.params.id]);
 
   const getRestaurant = (id) => {
     RestaurantDataService.get(id)
-      .then(res => {
-        console.log(res);
-      })
       .catch(e => {
         console.error(`unable to retrieve restaurant in Restaurant: ${e}`);
-        props.history.push("/404");
+        history.push("/404");
       });
   }
 
@@ -40,8 +39,8 @@ const AddReview = (props) => {
   const saveReview = () => {
     var data = {
       text: review,
-      name: props.user.name,
-      user_id: props.user.id,
+      name: loggedIn.userData.username,
+      user_id: loggedIn.userData._id,
       restaurant_id: props.match.params.id
     }
 
@@ -53,6 +52,7 @@ const AddReview = (props) => {
         })
         .catch(e => {
           console.error(`unable to edit review in AddReview: ${e}`);
+          props.history.push("/login");
         });
     } else {
       ReviewDataServices.createReview(data)
@@ -61,13 +61,14 @@ const AddReview = (props) => {
         })
         .catch(e => {
           console.error(`unable to save new review in AddReview: ${e}`);
+          props.history.push("/login");
         });  
     }
   }
 
   return (
     <div>
-        {restaurant && props.user
+        {restaurant && loggedIn.userData
         ? (<div>
             <div className="submit-form">
               {submitted ? (

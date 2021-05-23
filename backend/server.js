@@ -4,7 +4,6 @@ import cookieParser from 'cookie-parser';
 import routes from "./api/routes.js";
 const app = express();
 
-
 app.use(cors({ origin: true, credentials: true }));
 app.options('*', cors());
 app.use(express.json());

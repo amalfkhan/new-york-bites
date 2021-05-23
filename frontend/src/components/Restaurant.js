@@ -1,39 +1,41 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import RestaurantDataService from "../services/restaurant";
-import ReviewDataServices from "../services/review";
+import React, { useState, useEffect, useContext } from "react";
+import { Link, useHistory } from "react-router-dom";
+import RestaurantDataService from "../services/restaurant.service";
+import ReviewDataServices from "../services/review.service";
+import AuthContext from "../context/AuthContext";
 
 const Restaurant = (props) => {
   const [restaurant, setRestaurant] = useState();
-  
-  useEffect(() => {
-    getRestaurant(props.match.params.id);
-  }, [props.match.params.id]); //only call if this is updated
+  const { loggedIn } = useContext(AuthContext);
+  const history = useHistory();
 
   const getRestaurant = (id) => {
     RestaurantDataService.get(id)
       .then(res => {
-        console.log(res);
         setRestaurant(res.data);
+        console.log(res.data);
       })
       .catch(e => {
         console.error(`unable to retrieve restaurant in Restaurant: ${e}`);
-        props.history.push("/404");
+        history.push("/404");
       });
   }
 
+  useEffect(() => {
+    console.log("USE EFFECT")
+    getRestaurant(props.match.params.id);
+  }, [props.match.params.id]);
+
   const deleteReview = (reviewId, index) => {
-    ReviewDataServices.deleteReview(reviewId, props.user.id)
+    ReviewDataServices.deleteReview(reviewId, loggedIn?.userData._id)
       .then(res => {
-        setRestaurant((prevState) => {
-          prevState.reviews.splice(index, 1)
-          return({
-            ...prevState
-          })
-        })
+        var updateReviews = restaurant;
+        updateReviews.reviews.splice(index, 1);
+        setRestaurant( {...updateReviews})
       })
       .catch(e => {
         console.error(`unable to delete review in Restaurant: ${e}`);
+        history.push("/login");
       })
   }
 
@@ -63,9 +65,9 @@ const Restaurant = (props) => {
                           <p className="card-text">
                             {review.text}<br/>
                             <strong>User: </strong>{review.name}<br/>
-                            <strong>Date: </strong>{review.date}
+                            <strong>Date: </strong>{review.date.split("T")[0]}
                           </p>
-                            {props.user && props.user.id === review.user_id &&
+                            {loggedIn?.status && loggedIn?.userData._id === review.user_id &&
                               <div className="row">
                                 <a onClick={() => deleteReview(review._id, index)} className="btn btn-primary col-lg-5 mx-1 mb-1">Delete</a>
                                 <Link 

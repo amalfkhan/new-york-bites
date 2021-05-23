@@ -1,4 +1,5 @@
 import mongodb from "mongodb";
+const ObjectId = mongodb.ObjectID;
 
 let users;
 
@@ -32,9 +33,18 @@ export default class UsersDAO {
     try {
       return await users.findOne({ email: email });
     } catch (e) {
-      console.error(`unable to aggregate from pipline: ${e}`);
+      console.error(`unable to get user by email: ${e}`);
       return { error: e };
     }
-  }  
+  }
+  
+  static async getUserById (id) {
+    try {
+      return await users.findOne({ _id: new ObjectId(id) });
+    } catch (e) {
+      console.error(`unable to get user by id: ${e}`);
+      return { error: e };
+    }
+  }
 }
 

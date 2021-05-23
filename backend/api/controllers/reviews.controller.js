@@ -1,7 +1,7 @@
 import ReviewsDao from "../../dao/reviewsDAO.js";
 
 export default class ReviewsController {
-  static async apiAddReview(req, res, next) {
+  static async apiAddReview(req, res) {
     try {
       const restaurantId = req.body.restaurant_id;
       const review = req.body.text;
@@ -19,7 +19,7 @@ export default class ReviewsController {
     } 
   }
 
-  static async apiUpdateReview(req, res, next) {
+  static async apiUpdateReview(req, res) {
     try {
       const userId = req.body.user_id
       const reviewId = req.body.review_id;
@@ -34,7 +34,7 @@ export default class ReviewsController {
     } 
   }
 
-  static async apiDeleteReview(req, res, next) {
+  static async apiDeleteReview(req, res) {
     try {
       const reviewId = req.query.id;
       const userId = req.body.user_id;

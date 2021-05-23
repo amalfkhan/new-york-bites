@@ -36,7 +36,6 @@ export default class RestaurantsController {
       let id = req.params.id || {};
       if(!objectidValidation(id)) return res.status(400).json({ error: "invalid restuarant id" });
       const restaurant = await RestaurantsDAO.getRestaurantById(id);
-      console.log(restaurant)
       if (!restaurant) {
         console.error(`could not find restaurant: ${id}`);
         return res.status(400).json({ error: e });

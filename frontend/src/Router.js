@@ -1,6 +1,8 @@
 import React, { useContext } from "react";
 import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core";
+import { indigo, amber } from '@material-ui/core/colors';
+// import "bootstrap/dist/css/bootstrap.min.css";
 import AddReview from "./components/AddReview";
 import Restaurant from "./components/Restaurant";
 import RestaurantsList from "./components/RestaurantsList";
@@ -10,12 +12,28 @@ import FourZeroFour from "./components/FourZeroFour"
 import LogOutButton from "./components/LogOutButton";
 import AuthContext from "./context/AuthContext";
 
+const theme = createMuiTheme({
+  palette: {
+    primary: indigo,
+    secondary: amber,
+  },
+  typography: {
+    fontFamily: "Quicksand",
+    fontWeightLight: 400,
+    fontWeightRegular: 500,
+    fontWeightMedium: 600,
+    fontWeightBold: 700,
+
+  }
+})
+
 function Router() {
   const { loggedIn } = useContext(AuthContext);
   return (
+    <ThemeProvider theme={theme}>
     <BrowserRouter>
       <div>
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+        {/* <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
           <a className="navbar-brand" href="/restaurants">Restaurant Reviews</a>
           <div className="navbar-nav mr-auto">
             <li className="nav-item">
@@ -30,9 +48,9 @@ function Router() {
               }
             </li>
           </div>
-        </nav>
+        </nav> */}
 
-        <div className="container mt-3">
+        <div>
           <Switch>
             <Route 
               exact 
@@ -83,6 +101,7 @@ function Router() {
         </div>
       </div>
     </BrowserRouter>
+    </ThemeProvider>
   );
 }
 

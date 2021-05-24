@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
 import AuthContext from "../context/AuthContext";
 import ReviewDataServices from "../services/review.service";
 import RestaurantDataService from "../services/restaurant.service"

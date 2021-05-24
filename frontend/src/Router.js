@@ -2,10 +2,9 @@ import React, { useContext } from "react";
 import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 import { indigo, amber } from '@material-ui/core/colors';
-// import "bootstrap/dist/css/bootstrap.min.css";
-import AddReview from "./components/AddReview";
-import Restaurant from "./components/Restaurant";
-import RestaurantsList from "./components/RestaurantsList";
+import AddReview from "./components/Restaurant/Review";
+import Restaurant from "./components/Restaurant/Page";
+import RestaurantsList from "./components/RestaurantsList/Page";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import FourZeroFour from "./components/FourZeroFour"

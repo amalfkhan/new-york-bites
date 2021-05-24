@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
-import AuthContext from "../context/AuthContext";
-import ReviewDataServices from "../services/review.service";
-import RestaurantDataService from "../services/restaurant.service"
-import restaurant from "../services/restaurant.service";
+import AuthContext from "../../context/AuthContext";
+import ReviewDataServices from "../../services/review.service";
+import RestaurantDataService from "../../services/restaurant.service"
+import restaurant from "../../services/restaurant.service";
 
 const AddReview = (props) => {
   let initialReviewState = "";

@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
-import RestaurantDataService from "../services/restaurant.service";
-import ReviewDataServices from "../services/review.service";
-import AuthContext from "../context/AuthContext";
+import RestaurantDataService from "../../services/restaurant.service";
+import ReviewDataServices from "../../services/review.service";
+import AuthContext from "../../context/AuthContext";
 
 const Restaurant = (props) => {
   const [restaurant, setRestaurant] = useState();
@@ -22,7 +22,6 @@ const Restaurant = (props) => {
   }
 
   useEffect(() => {
-    console.log("USE EFFECT")
     getRestaurant(props.match.params.id);
   }, [props.match.params.id]);
 

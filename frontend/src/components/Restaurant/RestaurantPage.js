@@ -6,8 +6,12 @@ import EditIcon from '@material-ui/icons/Edit';
 import RestaurantDataService from "../../services/restaurant.service";
 import ReviewDataServices from "../../services/review.service";
 import AuthContext from "../../context/AuthContext";
+import colors from "./colors";
 
 const useStyles = makeStyles({
+  avatar: {
+    backgroundColor: colors[Math.floor(Math.random() * colors.length)]
+  },
   header: {
     paddingTop: '5%',
     paddingBottom: '2%'
@@ -34,7 +38,7 @@ const Restaurant = (props) => {
   const [restaurant, setRestaurant] = useState();
   const { loggedIn } = useContext(AuthContext);
   const history = useHistory();
-  const classes = useStyles();
+  const classes = useStyles(restaurant);
 
   const getRestaurant = (id) => {
     RestaurantDataService.get(id)
@@ -130,7 +134,7 @@ const Restaurant = (props) => {
                       <Card className={classes.root}>
                         <CardHeader
                           avatar={
-                            <Avatar aria-label="recipe" className={classes.avatar}>
+                            <Avatar style={{ backgroundColor:`${colors[Math.floor(Math.random() * colors.length)]}` }}>
                               {review.name.charAt(0).toUpperCase()}
                             </Avatar>
                           }
@@ -168,7 +172,7 @@ const Restaurant = (props) => {
                 <Grid container align="center" alignItems="center" justify="center" spacing={1} >
                   <Typography variant="h6" className={classes.address} color="textSecondary" gutterBottom>
                     No reviews yet<br/>
-                    Have you visited? Add a review above!
+                    Have you visited this restuarant? Add a review above!
                   </Typography>
                 </Grid>
               )}

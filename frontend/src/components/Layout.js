@@ -2,7 +2,8 @@ import React, { useContext } from "react";
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import AuthContext from "../context/AuthContext";
 import LogoutButton from "./LogoutButton";
-import { makeStyles, Drawer, Typography, List, ListItem, ListItemIcon, ListItemText, AppBar, Toolbar, Button } from "@material-ui/core"
+import { makeStyles, Drawer, Typography, List, ListItem, ListItemIcon, ListItemText, AppBar, Toolbar, Button, Avatar } from "@material-ui/core"
+import { indigo, amber } from '@material-ui/core/colors';
 import CasinoIcon from '@material-ui/icons/Casino';
 import SearchIcon from '@material-ui/icons/Search';
 import RestaurantIcon from '@material-ui/icons/Restaurant';
@@ -64,12 +65,16 @@ const useStyles = makeStyles((theme) => {
     toolbar: theme.mixins.toolbar,
     username: {
       flexGrow: 1,
-      margin: 10
+      margin: 20,
+      fontSize: 16
     },
     button: {
       padding: 10,
       margin: 10
     },
+    avatar: {
+      backgroundColor: indigo[500]
+    }
   }
 });
 
@@ -85,7 +90,8 @@ const Layout = ({ children }) => {
         <Toolbar >
           {loggedIn?.status ?
             <>
-              <Typography className={classes.username} color="primary">{ loggedIn.userData.username }</Typography>
+              <Avatar className={classes.avatar}>{ loggedIn.userData.username.charAt(0).toUpperCase() }</Avatar>
+              <Typography className={classes.username} component="p" variant="button" color="primary">{ loggedIn.userData.username }</Typography>
               <LogoutButton />
             </>
             : 

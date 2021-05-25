@@ -9,7 +9,6 @@ import RestaurantsPage from "./components/RestaurantsList/RestaurantsPage";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import FourZeroFour from "./components/FourZeroFour"
-import LogOutButton from "./components/LogOutButton";
 import AuthContext from "./context/AuthContext";
 
 const theme = createMuiTheme({
@@ -33,22 +32,6 @@ function Router() {
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Layout>
-        {/* <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-          <a className="navbar-brand" href="/restaurants">Restaurant Reviews</a>
-          <div className="navbar-nav mr-auto">
-            <li className="nav-item">
-              <Link to={"/restaurants"} className="nav-link">Restaurants</Link>
-            </li>
-            { loggedIn?.status === true && <li style={{color: "white"}}>{loggedIn.userData.username}</li> }
-            <li className="nav-item">
-              { loggedIn?.status === true && <LogOutButton /> }
-              { loggedIn?.status === false && <>
-              <Link to={"/login"} className="nav-link">Login</Link> 
-              <Link to={"/register"} className="nav-link">Register</Link> </>
-              }
-            </li>
-          </div>
-        </nav> */}
           <Switch>
             <Route 
               exact 

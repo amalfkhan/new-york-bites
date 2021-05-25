@@ -1,6 +1,8 @@
-import React from 'react';
-import { useHistory, useLocation } from 'react-router';
-import { makeStyles, Drawer, Typography, List, ListItem, ListItemIcon, ListItemText, AppBar, Toolbar } from "@material-ui/core"
+import React, { useContext } from "react";
+import { Link, useHistory, useLocation } from 'react-router-dom';
+import AuthContext from "../context/AuthContext";
+import LogoutButton from "./LogoutButton";
+import { makeStyles, Drawer, Typography, List, ListItem, ListItemIcon, ListItemText, AppBar, Toolbar, Button } from "@material-ui/core"
 import CasinoIcon from '@material-ui/icons/Casino';
 import SearchIcon from '@material-ui/icons/Search';
 import RestaurantIcon from '@material-ui/icons/Restaurant';
@@ -53,21 +55,64 @@ const useStyles = makeStyles((theme) => {
     },
     title: {
       padding: theme.spacing(2),
-    }
+    },
+    appBar: {
+      backgroundColor: "white",
+      width: `calc(100% - ${drawerWidth}px)`,
+      borderBottom: "1px solid #dbdbdb"
+    },
+    toolbar: theme.mixins.toolbar,
+    username: {
+      flexGrow: 1,
+      margin: 10
+    },
+    button: {
+      padding: 10,
+      margin: 10
+    },
   }
 });
 
 const Layout = ({ children }) => {
+  const { loggedIn } = useContext(AuthContext);
   const history = useHistory();
   const location = useLocation();
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      {/* app bar */}
+      <AppBar className={classes.appBar} elevation={0}>
+        <Toolbar >
+          {loggedIn?.status ?
+            <>
+              <Typography className={classes.username} color="primary">{ loggedIn.userData.username }</Typography>
+              <LogoutButton />
+            </>
+            : 
+            <>
+              <Typography className={classes.username} color="primary"></Typography>
+              <Button
+                className={classes.button} 
+                color="primary"
+                component={Link} 
+                to={"/login"}
+              >
+                Login
+              </Button>
+              <Button 
+                className={classes.button}
+                color="primary"
+                component={Link}
+                to={"/register"}
+              >
+                Register
+              </Button>
+            </>
+          }
+          
+        </Toolbar>
+      </AppBar>
 
-
-      {/* side drawer */}
       <Drawer 
         className={classes.drawer}
         variant="permanent"
@@ -96,6 +141,7 @@ const Layout = ({ children }) => {
       </Drawer>
       
       <div className={classes.pageContainer}>
+        <div className={classes.toolbar}></div>
         { children }
       </div>
     </div>

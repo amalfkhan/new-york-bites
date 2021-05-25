@@ -30,14 +30,16 @@ export default class UsersController {
   }
 
   static async apiRegisterUser(req, res) {
-    if(!req.password === req.verifyPassword) return res.status(400).json({ error: "Please check that the passwords you provided match" });
+    if(!(req.body.password === req.body.verifyPassword)) return res.status(400).json({ error: "verifyPassword failed" });
 
     const validation = registerValidation(req.body);
     if(validation.error) return res.status(400).json({ error: validation.error.details[0].message }); 
     
     try { //check if there's already an account associated with the data
       const emailExists = await UsersDAO.getUserByEmail(req.body.email);
+      const usernameExists = await UsersDAO.getUserByUsername(req.body.username);
       if(emailExists) return res.status(400).json({ error: "email already associated with an accout" });
+      if(usernameExists) return res.status(400).json({ error: "username unavailable" });
     } catch (e) {
       res.status(500).json({ error: e.message });
     }

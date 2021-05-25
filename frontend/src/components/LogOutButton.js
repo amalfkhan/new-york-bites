@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import UserDataService from "../services/user.service.js";
 import { Button, makeStyles} from "@material-ui/core"
@@ -14,12 +14,13 @@ const useStyles = makeStyles((theme) => {
 
 function LogoutButton() {
   const { getLoggedIn } = useContext(AuthContext);
-  const history = useHistory();
+  // const history = useHistory();
   const classes = useStyles();
 
   async function logOut() {
     UserDataService.logoutUser()
     await getLoggedIn();
+    // history.push("/")
     window.location.reload();
   }
 

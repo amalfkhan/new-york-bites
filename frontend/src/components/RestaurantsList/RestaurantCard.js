@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { makeStyles, Grid, Card, Typography, CardContent, CardActions, Button } from '@material-ui/core';
+import { makeStyles, Card, Typography, CardContent, CardActions, Button } from '@material-ui/core';
+import Masonry from 'react-masonry-css';
 
 const useStyles = makeStyles({
   bullet: {
@@ -14,22 +15,36 @@ const useStyles = makeStyles({
   address: {
     marginBottom: 10,
   },
+  restaurantCard: {
+    padding: "15px"
+  }
 });
 
 const RestaurantCard = ({ restaurants }) => {
   const classes = useStyles();
   const bull = <span className={classes.bullet}>•</span>;
+  const breakpoints = {
+    default: 4,
+    1500: 3,
+    1100: 2,
+    850: 1
+  };
 
   return (
-    <Grid container spacing={4}>
+    // <Grid container spacing={4}>
+    <Masonry
+    breakpointCols={breakpoints}
+    className="my-masonry-grid"
+    columnClassName="my-masonry-grid_column">
       {restaurants.map((restaurant, index) => {
         const address = `${restaurant.address.building} ${restaurant.address.street}, ${restaurant.address.zipcode}`;
         const grade = `Grade: ${restaurant.grades[0]?.grade}`;
         const score = `Score: ${restaurant.grades[0]?.score}`;
 
         return (
-          <Grid item xs={6} md={4} lg={3} key={index}>
-            <Card variant="outlined">
+          // <Grid item xs={6} md={4} lg={3} key={index}>
+          <div>
+            <Card className={classes.restaurantCard} variant="outlined">
               <CardContent>
                 <Typography className={classes.cuisine} color="textSecondary" gutterBottom>
                   {restaurant.cuisine}
@@ -55,10 +70,12 @@ const RestaurantCard = ({ restaurants }) => {
                 </Button>
               </CardActions>
             </Card>
-          </Grid>
+          {/* </Grid> */}
+          </div>
         );
       })}
-    </Grid>
+      </Masonry>
+    // </Grid>
   );
 }
 

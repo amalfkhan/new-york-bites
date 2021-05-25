@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
+import React from "react";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 import { indigo, amber } from '@material-ui/core/colors';
 import Layout from "./components/Layout";
@@ -9,7 +9,6 @@ import RestaurantsPage from "./components/RestaurantsList/RestaurantsPage";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import FourZeroFour from "./components/FourZeroFour"
-import AuthContext from "./context/AuthContext";
 
 const theme = createMuiTheme({
   palette: {
@@ -26,7 +25,6 @@ const theme = createMuiTheme({
 });
 
 function Router() {
-  const { loggedIn } = useContext(AuthContext);
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>

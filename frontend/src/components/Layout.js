@@ -3,7 +3,7 @@ import { Link, useHistory, useLocation } from 'react-router-dom';
 import AuthContext from "../context/AuthContext";
 import LogoutButton from "./LogoutButton";
 import { makeStyles, Drawer, Typography, List, ListItem, ListItemIcon, ListItemText, AppBar, Toolbar, Button, Avatar } from "@material-ui/core"
-import { indigo, amber } from '@material-ui/core/colors';
+import { indigo } from '@material-ui/core/colors';
 import CasinoIcon from '@material-ui/icons/Casino';
 import SearchIcon from '@material-ui/icons/Search';
 import RestaurantIcon from '@material-ui/icons/Restaurant';
@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => {
     },
     pageContainer: {
       background: "#f9f9f9",
-      width: "100%"
+      width: "100%",
     },
     drawer: {
       width: drawerWidth

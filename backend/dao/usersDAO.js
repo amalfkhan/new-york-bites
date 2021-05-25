@@ -37,6 +37,15 @@ export default class UsersDAO {
       return { error: e };
     }
   }
+
+  static async getUserByUsername (username) {
+    try {
+      return await users.findOne({ username: username });
+    } catch (e) {
+      console.error(`unable to get user by username: ${e}`);
+      return { error: e };
+    }
+  }
   
   static async getUserById (id) {
     try {

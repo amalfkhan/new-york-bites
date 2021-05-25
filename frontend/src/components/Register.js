@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: '100%',
     margin: theme.spacing(3),
   },
   helperText: {
@@ -51,7 +51,6 @@ const Register = () => {
       setError("password");
       (error.includes("empty") || error.includes("8")) ? setErrorText("Minimum 8 characters") : setErrorText("Error: please enter a differnt password");
     } else if (error.includes("verifyPassword")) {
-      console.log(error);
       setError("verifyPassword");
       (error.includes("empty") || error.includes("8") || error.includes("failed")) ? setErrorText("Passwords must match") : setErrorText("Error: please enter a differnt password");
     }

@@ -31,7 +31,6 @@ const RestaurantCard = ({ restaurants }) => {
   };
 
   return (
-    // <Grid container spacing={4}>
     <Masonry
     breakpointCols={breakpoints}
     className="my-masonry-grid"
@@ -42,8 +41,7 @@ const RestaurantCard = ({ restaurants }) => {
         const score = `Score: ${restaurant.grades[0]?.score}`;
 
         return (
-          // <Grid item xs={6} md={4} lg={3} key={index}>
-          <div>
+          <div key={index}>
             <Card className={classes.restaurantCard} variant="outlined">
               <CardContent>
                 <Typography className={classes.cuisine} color="textSecondary" gutterBottom>
@@ -70,12 +68,10 @@ const RestaurantCard = ({ restaurants }) => {
                 </Button>
               </CardActions>
             </Card>
-          {/* </Grid> */}
           </div>
         );
       })}
-      </Masonry>
-    // </Grid>
+    </Masonry>
   );
 }
 

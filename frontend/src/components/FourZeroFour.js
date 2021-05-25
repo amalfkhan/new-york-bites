@@ -1,12 +1,44 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { makeStyles, TextField, Grid, Typography, Avatar, Paper, Button } from '@material-ui/core';
 
-const Restaurant = (props) => {
+
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    marginTop: theme.spacing(8),
+    padding: "40px 40px",
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    maxWidth: 350
+  },
+  button: {
+    margin: "50px 20px 20px 20px",
+    padding: "10px 20px",
+    display: 'inline-block'
+  }
+}));
+
+const Restaurant = () => {
+  const classes = useStyles()
+
   return (
-    <div>
-      Hmmm this page dosen't exist
-      <Link to={"/"} className="btn btn-primary">Go Home</Link>
-    </div>
+    <Grid container direction="column" alignItems="center" >
+    <div className={classes.paper}>
+      <Typography component="h1" variant="h5">
+        That page doesn't exist
+      </Typography>
+        <Button 
+          variant="contained"
+          color="primary"
+          className={classes.button} 
+          component={Link} 
+          to= {{ pathname: "/" }}
+        >
+          Go Home
+        </Button>
+    </div> 
+  </Grid>
   );
 }
 

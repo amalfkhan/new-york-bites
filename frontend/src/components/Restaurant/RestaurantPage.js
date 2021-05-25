@@ -42,7 +42,8 @@ const useStyles = makeStyles({
 });
 
 const Restaurant = (props) => {
-  const [restaurant, setRestaurant] = useState();
+  const [restaurantId, setRestaurantId] = useState(props.match.params.id);
+  const [restaurant, setRestaurant] = useState("");
   const { loggedIn } = useContext(AuthContext);
   const history = useHistory();
   const classes = useStyles(restaurant);
@@ -52,11 +53,12 @@ const Restaurant = (props) => {
     1100: 2,
     850: 1
   };
-
+  
   const getRestaurant = (id) => {
     RestaurantDataService.get(id)
       .then(res => {
         setRestaurant(res.data);
+        setRestaurantId(res.data._id);
       })
       .catch(e => {
         console.error(`unable to retrieve restaurant in RestaurantPage: ${e}`);
@@ -68,6 +70,7 @@ const Restaurant = (props) => {
     RestaurantDataService.getRandom()
       .then(res => {
         setRestaurant(res.data);
+        setRestaurantId(res.data._id);
       })
       .catch(e => {
         console.error(`unable to retrieve random restaurant in RestaurantPage: ${e}`);
@@ -76,9 +79,9 @@ const Restaurant = (props) => {
   }
 
   useEffect(() => {
-    if(props.match.params.id === "lucky") getRandomRestaurant();
-    else getRestaurant(props.match.params.id);
-  }, [props.match.params?.id]);
+    if(restaurantId === "lucky") getRandomRestaurant();
+    else getRestaurant(restaurantId);
+  }, [restaurantId]);
 
   const deleteReview = (reviewId, index) => {
     ReviewDataServices.deleteReview(reviewId, loggedIn?.userData._id)
@@ -129,7 +132,7 @@ const Restaurant = (props) => {
                   color="primary"
                   className={classes.button} 
                   component={Link} 
-                  to={{ pathname: "/restaurants/" + props.match.params.id + "/review", state: { currentReview: "" } }}
+                  to= { loggedIn?.status ? { pathname: "/restaurants/" + restaurantId + "/review", state: { currentReview: "" } } : { pathname: "/login" } }
                 >
                   Add a review
                 </Button>
@@ -174,7 +177,7 @@ const Restaurant = (props) => {
                               </IconButton>
                               <IconButton 
                                 component={Link} 
-                                to={{ pathname: "/restaurants/" + props.match.params.id + "/review", state: { currentReview: review } }}
+                                to={{ pathname: "/restaurants/" + restaurantId + "/review", state: { currentReview: review } }}
                               >
                                 <EditIcon />
                               </IconButton>

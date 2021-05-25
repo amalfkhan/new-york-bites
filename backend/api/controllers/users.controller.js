@@ -44,7 +44,8 @@ export default class UsersController {
       res.status(500).json({ error: e.message });
     }
 
-    try { //encrypt the password
+    //encrypt the password
+    try { 
       const salt = await bcrypt.genSalt(10);
       var hashedPassword = await bcrypt.hash(req.body.password, salt);
     } catch (e) {

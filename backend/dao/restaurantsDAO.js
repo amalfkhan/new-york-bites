@@ -98,6 +98,55 @@ class RestaurantsDAO {
     }
   }
 
+  static async getRandomRestaurant () {
+    try {
+      var restaurantData = await restaurants.aggregate([{ $sample: { size: 1 }}]).toArray();
+      if(!restaurantData) return null;
+    } catch (e) {
+      return { error: e }
+    }
+
+    try {
+      const pipeline = [
+        {        
+          $match: { _id: new ObjectId(restaurantData[0]._id), }
+        },
+        {
+          $lookup: {
+            from: "reviews",
+            let: {
+              id: "$_id",
+            },
+            pipeline: [
+              {
+                $match: {
+                  $expr: {
+                    $eq: ["$restaurant_id", "$$id"],
+                  },
+                },
+              },
+              {
+                $sort: {
+                  date: -1,
+                },
+              },
+            ],
+            as: "reviews"
+          },
+        },
+        {
+          $addFields: {
+            reviews: "$reviews",
+          }, 
+        },
+      ]
+      return await restaurants.aggregate(pipeline).next();
+    } catch (e) {
+      console.error(`unable to aggregate from pipline: ${e}`);
+      return { error: e };
+    }
+  }
+
   static async getCuisines() {
     let cuisines = [];
     try {

@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Button, TextField, Select, MenuItem, Grid } from '@material-ui/core';
-import { makeStyles } from "@material-ui/core";
+import React, {  useState, useEffect } from "react";
+import { makeStyles, Button, TextField, Select, MenuItem, Grid } from '@material-ui/core';
 import RestaurantDataService from "../../services/restaurant.service";
 
 const useStyles = makeStyles({
@@ -124,7 +123,7 @@ const Search = ({ setRestaurants, setTotalRestaurants, currPage, restaurantsPerP
   }
 
   return (
-    <Grid container spacing={3} className={classes.searchContainer}>
+    <Grid container align = "center" alignItems="center" justify="center" spacing={3} className={classes.searchContainer}>
       <Grid item xs={12} md={4}>
         <form noValidate autoComplete="off">
           <TextField
@@ -139,6 +138,7 @@ const Search = ({ setRestaurants, setTotalRestaurants, currPage, restaurantsPerP
               className: classes.helperText
             }}
           />
+          <br/>
           <Button variant="contained" color="primary" onClick={ () => { newSearch = true; findByName() }}>
             Search
           </Button>
@@ -159,6 +159,7 @@ const Search = ({ setRestaurants, setTotalRestaurants, currPage, restaurantsPerP
               className: classes.helperText
             }}
           />
+          <br/>
           <Button variant="contained" color="primary" onClick={ () => { newSearch = true; findByZipcode() }}>
             Search
           </Button>
@@ -185,6 +186,7 @@ const Search = ({ setRestaurants, setTotalRestaurants, currPage, restaurantsPerP
               )
             })}
           </Select>
+          <br/>
           <Button variant="contained" color="primary" onClick={ () => { newSearch = true; findByCuisine() }}>
             Search
           </Button>

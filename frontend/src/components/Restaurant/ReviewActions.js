@@ -5,7 +5,7 @@ import ReviewDataServices from "../../services/review.service";
 import RestaurantDataService from "../../services/restaurant.service"
 import restaurant from "../../services/restaurant.service";
 
-const AddReview = (props) => {
+const ReviewActions = (props) => {
   let initialReviewState = "";
   let editing = false;
   const history = useHistory();
@@ -50,7 +50,7 @@ const AddReview = (props) => {
           setSubmitted(true);
         })
         .catch(e => {
-          console.error(`unable to edit review in AddReview: ${e}`);
+          console.error(`unable to edit review in ReviewActions: ${e}`);
           props.history.push("/login");
         });
     } else {
@@ -59,7 +59,7 @@ const AddReview = (props) => {
           setSubmitted(true);
         })
         .catch(e => {
-          console.error(`unable to save new review in AddReview: ${e}`);
+          console.error(`unable to save new review in ReviewActions: ${e}`);
           props.history.push("/login");
         });  
     }
@@ -103,4 +103,4 @@ const AddReview = (props) => {
   );
 }
 
-export default AddReview;
+export default ReviewActions;

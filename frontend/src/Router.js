@@ -2,9 +2,10 @@ import React, { useContext } from "react";
 import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 import { indigo, amber } from '@material-ui/core/colors';
-import AddReview from "./components/Restaurant/Review";
-import Restaurant from "./components/Restaurant/Page";
-import RestaurantsList from "./components/RestaurantsList/Page";
+import Layout from "./components/Layout";
+import ReviewActions from "./components/Restaurant/ReviewActions";
+import Restaurant from "./components/Restaurant/RestaurantPage";
+import RestaurantsPage from "./components/RestaurantsList/RestaurantsPage";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import FourZeroFour from "./components/FourZeroFour"
@@ -30,8 +31,8 @@ function Router() {
   const { loggedIn } = useContext(AuthContext);
   return (
     <ThemeProvider theme={theme}>
-    <BrowserRouter>
-      <div>
+      <BrowserRouter>
+        <Layout>
         {/* <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
           <a className="navbar-brand" href="/restaurants">Restaurant Reviews</a>
           <div className="navbar-nav mr-auto">
@@ -48,47 +49,35 @@ function Router() {
             </li>
           </div>
         </nav> */}
-
-        <div>
           <Switch>
             <Route 
               exact 
               path={["/", "/restaurants"]} 
-              component={RestaurantsList} 
+              component={RestaurantsPage} 
             />
             <Route 
               path="/restaurants/:id/review"
-              render={(props) => (
-                <AddReview {...props} />
-              )}
+              render={ (props) => (<ReviewActions {...props} />) }
             />
             <Route
               exact
               path="/restaurants/:id"
-              render={(props) => (
-                <Restaurant {...props} />
-              )}
+              render={ (props) => (<Restaurant {...props} />) }
             />
             <Route 
               exact
               path="/login"
-              render={() => (
-                <Login />
-              )}
+              render={ () => (<Login />) }
             />
             <Route 
               exact
               path="/register"
-              render={() => (
-                <Register />
-              )}
+              render={ () => (<Register />) }
             />
             <Route
               exact 
               path="/404"
-              render={() => (
-                <FourZeroFour />
-              )}
+              render={ () => (<FourZeroFour />) }
             />
             <Route 
               path=""
@@ -97,9 +86,8 @@ function Router() {
               )} 
             />
           </Switch>
-        </div>
-      </div>
-    </BrowserRouter>
+        </Layout>
+      </BrowserRouter>
     </ThemeProvider>
   );
 }

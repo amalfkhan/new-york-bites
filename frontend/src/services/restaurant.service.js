@@ -9,11 +9,15 @@ class RestaurantDataService {
     return http.get(`/id/${id}`);
   }
 
+  getRandom() {
+    return http.get(`/random-restaurant`);
+  }
+
   find(query, by = "name", currPage = 1, restaurantsPerPage = 100) {
     return http.get(`?${by}=${query}&page=${currPage}&restaurantsPerPage=${restaurantsPerPage}`);
   }
 
-  getCuisines(id) {
+  getCuisines() {
     return http.get(`/cuisines`);
   }
 }

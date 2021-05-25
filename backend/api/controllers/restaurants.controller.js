@@ -2,7 +2,7 @@ import RestaurantsDAO from "../../dao/restaurantsDAO.js";
 import objectidValidation from "../validation/objectid.validation.js"
 
 export default class RestaurantsController {
-  static async apiGetRestaurants(req, res, next) {
+  static async apiGetRestaurants(req, res) {
     const restaurantsPerPage = req.query.restaurantsPerPage ? parseInt(req.query.restaurantsPerPage, 10) : 100;
     const page = req.query.page ? parseInt(req.query.page, 10) : 1;
     
@@ -31,7 +31,7 @@ export default class RestaurantsController {
     }
   }
 
-  static async apiGetRestaurantById(req, res, next) {
+  static async apiGetRestaurantById(req, res) {
     try {
       let id = req.params.id || {};
       if(!objectidValidation(id)) return res.status(400).json({ error: "invalid restuarant id" });
@@ -47,7 +47,17 @@ export default class RestaurantsController {
     }
   }
 
-  static async apiGetRestaurantCuisines(req, res, next) {
+  static async apiGetRandomRestaurant(req, res) {
+    try {
+      const restaurant = await RestaurantsDAO.getRandomRestaurant();
+      res.json(restaurant);
+    } catch (e) {
+      console.error(`random restaurant retrival issue: ${e}`);
+      res.status(500).json({ error: e });
+    }
+  }  
+
+  static async apiGetRestaurantCuisines(req, res) {
     try {
       let cuisines = await RestaurantsDAO.getCuisines();
       res.json(cuisines);

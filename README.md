@@ -50,7 +50,14 @@ npm run start
 ``` 
 
 To Visit App:
-`localhost:3000/`  
+`localhost:3000/`
+
+Example Account
+> **Email:** rodrigohernandez@me.com
+> **Password:** rodrigohernandez
+
+You can create your own dummy account - the email is only used for sign-in authorization 
+
 
 ## Reflection
 

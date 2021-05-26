@@ -1,4 +1,4 @@
-# New York Restaurant Review
+# New York Restaurant Reviews
 
 An application for users to post reviews on restaurants in New York
 
@@ -6,16 +6,15 @@ An application for users to post reviews on restaurants in New York
 
 ### Search:   
 
-[ ADD SCREEN SHOTS ]
+![Search page](https://i.imgur.com/6VcjW1R.png)
 
 ### Restaurant:
 
-[ ADD SCREEN SHOTS ]
+![Restaurant example](https://i.imgur.com/CTFOxzX.png)
 
-### Login and Register:
+### Register:
 
-[ ADD SCREEN SHOTS ]
-
+![Register page with error](https://i.imgur.com/V5epimG.png)
 
 ## Installation and Setup
 
@@ -23,13 +22,13 @@ Clone down this repository. You will need `node` and `npm` installed globally on
 
 ### Installation:
 
-Server - from the restaurant-reviews folder
+Server - from the new-york-restaurant-reviews folder
 ```sh
 cd backend
 npm i
 ``` 
 
-Frontend - from the restaurant-reviews folder
+Frontend - from the new-york-restaurant-reviews folder
 ```sh
 cd frontend
 npm i
@@ -37,32 +36,33 @@ npm i
 
 ### Start Application:
 
-Start Server - from the restaurant-reviews folder
+Start Server - from the new-york-restaurant-reviews folder
 ```sh
 cd backend
 npm run start
 ```
 
-Start Frontend - from the restaurant-reviews folder
+Start Frontend - from the new-york-restaurant-reviews folder
 ```sh
 cd frontend
 npm run start
 ``` 
 
-To Visit App:
-`localhost:3000/`
+<p>&nbsp;</p>
+To Visit App: `localhost:3000/`
 
+<p>&nbsp;</p>
 Example Account
-> **Email:** rodrigohernandez@me.com
-> **Password:** rodrigohernandez
+**Email:** rodrigohernandez@me.com
+**Password:** rodrigohernandez
 
-You can create your own dummy account - the email is only used for sign-in authorization 
+You can create your own dummy account - the email is only used for sign-in 
 
 
 ## Reflection
 
-This was a project built to familiarize myself with: 
-  - The process of developing a server in nodejs 
+I built this project to familiarize myself with: 
+  - Developing a server in node.js 
   - Connecting a server to a mongodb database
   - Methods for connecting a backend to a frontend
   - Reading technical documentation for tools that are new to me

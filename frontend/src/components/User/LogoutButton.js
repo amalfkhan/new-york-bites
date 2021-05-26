@@ -1,7 +1,9 @@
+// component to render button that handles user logout 
+
 import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
-import AuthContext from "../context/AuthContext";
-import UserDataService from "../services/user.service.js";
+import AuthContext from "../../context/AuthContext";
+import UserDataService from "../../services/user.service.js";
 import { Button, makeStyles} from "@material-ui/core"
 
 const useStyles = makeStyles((theme) => {
@@ -13,10 +15,11 @@ const useStyles = makeStyles((theme) => {
 });
 
 function LogoutButton() {
-  const { getLoggedIn } = useContext(AuthContext);
+  const { getLoggedIn } = useContext(AuthContext); // access to update user info context
   const history = useHistory();
   const classes = useStyles();
 
+  // remove user token cookie and update context to store no user
   async function logOut() {
     UserDataService.logoutUser()
     await getLoggedIn();

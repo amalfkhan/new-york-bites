@@ -1,9 +1,11 @@
-import React, { useState, useContext } from "react";
+// component to render login form
+
+import React, { useContext, useState } from "react";
 import { makeStyles, TextField, Grid, Typography, Avatar, Paper, Button } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import UserDataService from "../services/user.service";
+import UserDataService from "../../services/user.service";
 import { useHistory } from "react-router-dom";
-import AuthContext from "../context/AuthContext";
+import AuthContext from "../../context/AuthContext";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -27,42 +29,35 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Register = () => {
-  const classes = useStyles();
-  const { getLoggedIn } = useContext(AuthContext);
+const Login = () => {
+  const { getLoggedIn } = useContext(AuthContext); // access to update user context
   const history = useHistory();
   const [error, setError] = useState("");
   const [errorText, setErrorText] = useState("");
   const [user, setUser] = useState({
-    username: "",
     email: "",
-    password: "",
-    verifyPassword: ""
+    password: ""
   });
-  
+  const classes = useStyles();
+
   const handleError = (error) => {
     if (error.includes("email")) {
-      setError("email");
-      error.includes("empty") ? setErrorText("Required") : ( error.includes("valid") ? setErrorText("Invalid email") : setErrorText("Email associated with an existing account") );
-    } else if (error.includes("username")) {
-      setError("username");
-      (error.includes("empty") || error.includes("8")) ? setErrorText("Minimum 8 characters") : setErrorText("Username associated with an existing account");
+      setError("email")
+      error.includes("empty") ? setErrorText("required") : setErrorText("invalid email")
     } else if (error.includes("password")) {
-      setError("password");
-      (error.includes("empty") || error.includes("8")) ? setErrorText("Minimum 8 characters") : setErrorText("Error: please enter a differnt password");
-    } else if (error.includes("verifyPassword")) {
-      setError("verifyPassword");
-      (error.includes("empty") || error.includes("8") || error.includes("failed")) ? setErrorText("Passwords must match") : setErrorText("Error: please enter a differnt password");
+      setError("password")
+      error.includes("empty") ? setErrorText("required") : setErrorText("invalid password");
     }
   }
 
   const handleInputChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   }
-  
-  const register = async () => {
+
+  // get user from database and update context with the returned user data
+  const login = async () => {
     try {
-      await UserDataService.registerUser(user);
+      await UserDataService.loginUser(user);
       await getLoggedIn();
       history.push("/");
     } catch (e) {
@@ -77,9 +72,9 @@ const Register = () => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Register
+          Login
         </Typography>
-
+          
         <form className={classes.form} noValidate>
           <Grid container spacing={3} align="center" >
             <Grid item xs={12}>
@@ -104,22 +99,6 @@ const Register = () => {
                 variant="outlined"
                 required
                 fullWidth
-                id="username"
-                label="Username"
-                name="username"
-                value={user.username}
-                onChange={ (e) => { setError(""); handleInputChange(e)} }
-                helperText={error === "username" && errorText}
-                FormHelperTextProps={{
-                  className: classes.helperText
-                }}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
                 id="password"
                 label="Password"
                 name="password"
@@ -132,26 +111,9 @@ const Register = () => {
                 }}
               />
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="verifyPassword"
-                label="Verify Password"
-                name="verifyPassword"
-                value={user.verifyPassword}
-                type="password"
-                onChange={ (e) => { setError(""); handleInputChange(e)} }
-                helperText={error === "verifyPassword" && errorText}
-                FormHelperTextProps={{
-                  className: classes.helperText
-                }}
-              />
-            </Grid>
               <Grid item xs={12}>
-                <Button color="primary" variant="contained" onClick={register}>
-                  Register
+                <Button color="primary" variant="contained" onClick={login}>
+                  Login
                 </Button>
               </Grid>
             </Grid>
@@ -161,4 +123,4 @@ const Register = () => {
   );
 }
 
-export default Register;
+export default Login;

@@ -1,3 +1,5 @@
+// requests to backend regarding reviews
+
 import http from "../http-common";
 
 class ReviewDataServices {

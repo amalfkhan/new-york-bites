@@ -1,3 +1,5 @@
+//colors to display for user avatars
+
 const colors = [
   "#f44336", 
   "#e91e63", 

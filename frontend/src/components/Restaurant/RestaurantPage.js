@@ -1,3 +1,4 @@
+// component for displaying restaurant data on an individual restaurant and it's reviews
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { makeStyles, Container, Grid, Divider, Typography, Button } from '@material-ui/core';
@@ -34,11 +35,12 @@ const useStyles = makeStyles({
 const Restaurant = (props) => {
   const [restaurantId, setRestaurantId] = useState(props.match.params.id);
   const [restaurant, setRestaurant] = useState("");
-  const { loggedIn } = useContext(AuthContext);
+  const { loggedIn } = useContext(AuthContext); // get status and user data based on wether a user is logged in or not
   const history = useHistory();
   const classes = useStyles(restaurant);
   
-  const getRestaurant = (id) => {
+  // return - a single restaurant if there is one associated with the id
+  const getRestaurant = (id) => { 
     RestaurantDataService.get(id)
       .then(res => {
         setRestaurant(res.data);
@@ -50,6 +52,7 @@ const Restaurant = (props) => {
       });
   }
 
+  // return - a single random restaurant
   const getRandomRestaurant = () => {
     RestaurantDataService.getRandom()
       .then(res => {

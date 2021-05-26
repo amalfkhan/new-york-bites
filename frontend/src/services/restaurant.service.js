@@ -1,3 +1,4 @@
+// requests to backend regarding restaurants
 import http from "../http-common";
 
 class RestaurantDataService {

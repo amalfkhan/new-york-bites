@@ -1,3 +1,4 @@
+// check that a token is a valid jwt token
 import jwt from "jsonwebtoken";
 
 const tokenValidation = (req, res, next) => {

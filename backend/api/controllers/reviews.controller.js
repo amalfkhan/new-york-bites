@@ -1,6 +1,11 @@
+// controller fiile seperating reviews route requests and database access requests 
+// functions for review information
+
 import ReviewsDao from "../../dao/reviewsDAO.js";
 
 export default class ReviewsController {
+
+  // return - status of database insertion attempt
   static async apiAddReview(req, res) {
     try {
       const restaurantId = req.body.restaurant_id;
@@ -19,6 +24,7 @@ export default class ReviewsController {
     } 
   }
 
+  // return - status of attempt to update a review
   static async apiUpdateReview(req, res) {
     try {
       const userId = req.body.user_id
@@ -34,6 +40,7 @@ export default class ReviewsController {
     } 
   }
 
+  // return - status of attempt to delete a review
   static async apiDeleteReview(req, res) {
     try {
       const reviewId = req.query.id;

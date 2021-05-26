@@ -1,3 +1,4 @@
+// setup base access point for routes in the api
 import express from "express";
 import cors from "cors";
 import cookieParser from 'cookie-parser';

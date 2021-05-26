@@ -1,3 +1,4 @@
+// check that user entry when registering for or logging into account follows data standards
 import Joi from "@hapi/joi";
 
 export const registerValidation = (data) => {

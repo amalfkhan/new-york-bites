@@ -1,3 +1,6 @@
+// component that renders all reviews associated with a specific id
+// allows for editing, and deleting of reviews based on logged in user
+
 import React from "react";
 import { Link, useHistory } from "react-router-dom";
 import { makeStyles, Typography, Card, CardContent, CardActions, CardHeader, Avatar, IconButton } from '@material-ui/core';
@@ -23,6 +26,7 @@ const ReviewCards = ({ restaurantId, restaurant, setRestaurant, loggedIn }) => {
     850: 1
   };
 
+  // return - updated set of reviews for restaurant
   const deleteReview = (reviewId, index) => {
     ReviewDataServices.deleteReview(reviewId, loggedIn?.userData._id)
       .then(res => {
@@ -61,7 +65,7 @@ const ReviewCards = ({ restaurantId, restaurant, setRestaurant, loggedIn }) => {
                 </Typography>
               </CardContent>
 
-              {loggedIn?.status && loggedIn?.userData._id === review.user_id &&
+              {loggedIn?.status && loggedIn?.userData._id === review.user_id && // conditionally display delete and edit options based on user
                 <CardActions disableSpacing>
                   <IconButton onClick={() => deleteReview(review._id, index)}>
                     <DeleteIcon />

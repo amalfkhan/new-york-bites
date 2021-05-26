@@ -1,3 +1,4 @@
+// access points for api
 import express from "express";
 import RestaurantsCtrl from "./controllers/restaurants.controller.js";
 import ReviewsCtrl from "./controllers/reviews.controller.js";

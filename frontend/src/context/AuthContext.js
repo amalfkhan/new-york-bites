@@ -1,3 +1,5 @@
+// determine whether a user is logged in and access to the specific user data
+
 import React, { createContext, useEffect, useState } from "react";
 import UserDataService from "../services/user.service";
 

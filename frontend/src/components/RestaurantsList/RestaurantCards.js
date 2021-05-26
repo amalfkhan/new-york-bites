@@ -1,3 +1,5 @@
+// component that renders all restuarants associated with current search query
+
 import React from "react";
 import { Link } from "react-router-dom";
 import { makeStyles, Card, Typography, CardContent, CardActions, Button } from '@material-ui/core';
@@ -39,7 +41,6 @@ const RestaurantCards = ({ restaurants }) => {
         const address = `${restaurant.address.building} ${restaurant.address.street}, ${restaurant.address.zipcode}`;
         const grade = `Grade: ${restaurant.grades[0]?.grade}`;
         const score = `Score: ${restaurant.grades[0]?.score}`;
-
         return (
           <div key={index}>
             <Card className={classes.restaurantCard} variant="outlined">

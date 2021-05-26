@@ -22,6 +22,7 @@ MongoClient.connect(
   process.exit(1);
 })
 .then(async client => {
+  // access needed database collections
   await UsersDAO.injectDB(client);
   await RestaurantsDAO.injectDB(client);
   await ReviewsDAO.injectDB(client);

@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from "react";
+// component to display 404 page
+
+import React from "react";
 import { Link } from "react-router-dom";
-import { makeStyles, TextField, Grid, Typography, Avatar, Paper, Button } from '@material-ui/core';
+import { makeStyles, Grid, Typography, Button } from '@material-ui/core';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -19,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Restaurant = () => {
+const FourZeroFour = () => {
   const classes = useStyles()
 
   return (
@@ -42,4 +44,4 @@ const Restaurant = () => {
   );
 }
 
-export default Restaurant;
+export default FourZeroFour;

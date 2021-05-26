@@ -1,3 +1,5 @@
+// requests to backend regarding users
+
 import http from "../http-common";
 
 class UserDataService {

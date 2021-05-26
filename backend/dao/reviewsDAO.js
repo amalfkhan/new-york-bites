@@ -1,9 +1,14 @@
+//data access object file directly interfacing with the mongo database
+//functions specific to accessing review information
+
 import mongodb from "mongodb";
 const ObjectId = mongodb.ObjectID;
 
 let reviews;
 
 export default class ReviewsDAO {
+
+  // return - access point for the restaurant collection
   static async injectDB(conn) {
     if (reviews) return
     try {
@@ -13,6 +18,7 @@ export default class ReviewsDAO {
     }
   }
 
+  // return - status of attempt to add a new review
   static async addReview(restaurantId, user, review, date) {
     try {
       const reviewDoc = { 
@@ -29,10 +35,11 @@ export default class ReviewsDAO {
     }
   }
 
+  // return - status of attempt to update a review
   static async updateReview(reviewId, userId, text, date) {
     try {
-      const updateResponse = await reviews.updateOne(
-        { user_id: userId, _id: ObjectId(reviewId) },
+      const updateResponse = await reviews.updateOne( 
+        { user_id: userId, _id: ObjectId(reviewId) }, // find by user id and review id
         { $set: { text: text, date: date } }
       );
       return updateResponse;
@@ -42,10 +49,11 @@ export default class ReviewsDAO {
     }
   }
 
+  // return - status of attempt to delete a review
   static async deleteReview(reviewId, userId) {
     try {
       const deleteResponse = await reviews.deleteOne(
-        { user_id: userId, _id: ObjectId(reviewId) },
+        { user_id: userId, _id: ObjectId(reviewId) }, // find by user id and review id
       );
       return deleteResponse;
     } catch (e) {

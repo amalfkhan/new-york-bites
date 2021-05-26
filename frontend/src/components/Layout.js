@@ -1,7 +1,11 @@
+// component to render side bar and top bar
+// side bar handles access to retaurant search and some preset restaurant options
+// top bar handles routing for user login, registration and logout
+
 import React, { useContext } from "react";
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import AuthContext from "../context/AuthContext";
-import LogoutButton from "./LogoutButton";
+import LogoutButton from "./User/LogoutButton";
 import { makeStyles, Drawer, Typography, List, ListItem, ListItemIcon, ListItemText, AppBar, Toolbar, Button, Avatar } from "@material-ui/core"
 import { indigo } from '@material-ui/core/colors';
 import CasinoIcon from '@material-ui/icons/Casino';
@@ -136,7 +140,7 @@ const Layout = ({ children }) => {
               disabled={location.pathname === item.path ? true : false}
               key={index}
               className={location.pathname === item.path ? classes.active : null}
-              onClick={() => history.push(item.path)}
+              onClick={() => history.push(item.path)} // render component for restaurant or search page depending on selected sidebar option
             >
               <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText primary={item.text} />

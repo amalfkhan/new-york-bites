@@ -1,9 +1,14 @@
+//data access object file directly interfacing with the mongo database
+
 import mongodb from "mongodb";
 const ObjectId = mongodb.ObjectID;
 
 let users;
 
 export default class UsersDAO {
+
+  // connect to users collection in database
+  // return - access point for the users collection
   static async injectDB(conn) {
     if (users) return
     try {
@@ -13,7 +18,7 @@ export default class UsersDAO {
     }
   }
 
-  //create a doc with the user account info, add it to the database
+  // return - status of database insertion attempt
   static async registerUser( { username, email, password } ) {
     try {
       const userDoc = { 
@@ -29,6 +34,7 @@ export default class UsersDAO {
     }
   }
 
+  // return - data on user if matching email or empty if not
   static async getUserByEmail (email) {
     try {
       return await users.findOne({ email: email });
@@ -38,6 +44,7 @@ export default class UsersDAO {
     }
   }
 
+  // return - data on user if matching username found or empty if not
   static async getUserByUsername (username) {
     try {
       return await users.findOne({ username: username });
@@ -47,6 +54,7 @@ export default class UsersDAO {
     }
   }
   
+  // return - data on user if matching id found or empty if not
   static async getUserById (id) {
     try {
       return await users.findOne({ _id: new ObjectId(id) });

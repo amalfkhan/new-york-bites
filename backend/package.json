@@ -1,17 +1,19 @@
 {
-  "name": "backend",
+  "name": "restaurant-reviews",
   "version": "1.0.0",
-  "description": "",
+  "description": "An api connecting users to a mongodb database of New York restaurants and their reviews",
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon server"
+    "start": "node index.js",
+    "dev": "nodemon server"
   },
-  "author": "",
+  "author": "Amal Khan",
   "license": "ISC",
   "dependencies": {
     "@hapi/joi": "^17.1.1",
     "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "dotenv": "^9.0.2",
     "express": "^4.17.1",

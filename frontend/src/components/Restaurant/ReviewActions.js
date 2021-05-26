@@ -1,3 +1,6 @@
+// component for adding or editing a review
+// displays success page on submit, or error page if no restuarant exists, and allows adding of review if a user is logged in
+
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { makeStyles, TextField, Grid, Typography, Paper, Button } from '@material-ui/core';
@@ -13,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    maxWidth: 350
+    width: '50%'
   },
   form: {
     width: '100%',
@@ -33,21 +36,23 @@ const ReviewActions = (props) => {
   let initialReviewState = "";
   let editing = false;
   const history = useHistory();
-  const { loggedIn } = useContext(AuthContext);
+  const { loggedIn } = useContext(AuthContext); // get status and user data based on wether a user is logged in or not
   const classes = useStyles();
 
   useEffect(() => {
     getRestaurant(props.match.params.id);
   }, [props.match.params.id]);
 
+  // return - a single restaurant if there is one associated with the id
   const getRestaurant = (id) => {
     RestaurantDataService.get(id)
       .catch(e => {
-        console.error(`unable to retrieve restaurant in Restaurant: ${e}`);
+        console.error(`unable to retrieve restaurant in ReviewActions: ${e}`);
         history.push("/404");
       });
   }
 
+  // check if a new review is being added or if an existing one is being editted
   if (props.location.state && props.location.state.currentReview) {
     editing = true;
     initialReviewState = props.location.state.currentReview.text;
@@ -61,6 +66,7 @@ const ReviewActions = (props) => {
     setReview(e.target.value);
   }
 
+  // submit review data to api
   const saveReview = () => {
     if (review === '') {
       setError(true)
@@ -132,7 +138,7 @@ const ReviewActions = (props) => {
                       variant="outlined"
                       fullWidth
                       multiline
-                      rows={4}
+                      rows={6}
                       id="text"
                       label="Review"
                       name="text"
@@ -173,51 +179,6 @@ const ReviewActions = (props) => {
           </Paper> 
         </Grid>
       )}
-       {/* </div>      {submitted ? (
-              <div>
-                <h4>Thank you for your review!</h4>
-                <Link to={"/restaurants/" + props.match.params.id} className="btn btn-success">
-                  Back to Restaurant
-                </Link>
-              </div>
-            ) : ( 
-
-
-
-
-
-      <div>
-          <div className="submit-form">
-            {submitted ? (
-              <div>
-                <h4>Thank you for your review!</h4>
-                <Link to={"/restaurants/" + props.match.params.id} className="btn btn-success">
-                  Back to Restaurant
-                </Link>
-              </div>
-            ) : (
-              <div>
-                <div className="form-group">
-                  <label htmlFor="description">{ editing ? "Edit" : "Create" } Review</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="text"
-                    required
-                    value={review}
-                    onChange={handleInputChange}
-                    name="text"
-                  />
-                </div>
-                <button onClick={saveReview} className="btn btn-success">
-                  Submit
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-      )
-      : (<></>)}*/}
     </div> 
   );
 }

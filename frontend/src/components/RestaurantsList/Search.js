@@ -1,3 +1,5 @@
+// component to display search bar on main search page
+
 import React, {  useState, useEffect } from "react";
 import { makeStyles, Button, TextField, Select, MenuItem, Grid } from '@material-ui/core';
 import RestaurantDataService from "../../services/restaurant.service";
@@ -44,6 +46,7 @@ const Search = ({ setRestaurants, setTotalRestaurants, currPage, restaurantsPerP
     }
   }, [currPage]);
 
+  // return - all restaurants based on current page selected in pagination (no query applied)
   const retrieveRestaurants = () => {
     var page = currPage;
     if(newSearch) page = 1
@@ -57,6 +60,7 @@ const Search = ({ setRestaurants, setTotalRestaurants, currPage, restaurantsPerP
       });
   }
   
+  // return - list of cuisines for search dropdown selector
   const retrieveCuisines = () => {
     RestaurantDataService.getCuisines()
       .then(res => {
@@ -71,6 +75,7 @@ const Search = ({ setRestaurants, setTotalRestaurants, currPage, restaurantsPerP
     retrieveRestaurants();
   }
 
+  // return - restaurants based on query and current page selected in pagination
   const find = (query, by) => {
     var page = currPage;
     if(newSearch) page = 1;
@@ -182,7 +187,7 @@ const Search = ({ setRestaurants, setTotalRestaurants, currPage, restaurantsPerP
           >
             {cuisines.map((cuisine, index) => {
               return (
-                <MenuItem value={cuisine} key={index}>{cuisine}</MenuItem>
+                <MenuItem value={cuisine} key={index}>{cuisine.substring(0, 20)}</MenuItem>
               )
             })}
           </Select>

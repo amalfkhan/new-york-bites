@@ -1,3 +1,5 @@
+// base for accessing backend
+
 import axios from "axios";
 
 export default axios.create({

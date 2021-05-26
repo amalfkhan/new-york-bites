@@ -1,3 +1,5 @@
+// check that an id is a valid mongo objectid
+
 import mongodb from "mongodb";
 const ObjectId = mongodb.ObjectID;
 

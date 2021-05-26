@@ -6,8 +6,8 @@ import Layout from "./components/Layout";
 import ReviewActions from "./components/Restaurant/ReviewActions";
 import Restaurant from "./components/Restaurant/RestaurantPage";
 import RestaurantsPage from "./components/RestaurantsList/RestaurantsPage";
-import Login from "./components/Login";
-import Register from "./components/Register";
+import Login from "./components/User/Login";
+import Register from "./components/User/Register";
 import FourZeroFour from "./components/FourZeroFour"
 
 const theme = createMuiTheme({

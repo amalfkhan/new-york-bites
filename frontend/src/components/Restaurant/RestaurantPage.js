@@ -1,21 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { makeStyles, Container, Grid, Divider, Typography, Button, Card, CardContent, CardActions, CardHeader, Avatar, IconButton } from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
-import Masonry from 'react-masonry-css';
+import { makeStyles, Container, Grid, Divider, Typography, Button } from '@material-ui/core';
 import RestaurantDataService from "../../services/restaurant.service";
-import ReviewDataServices from "../../services/review.service";
 import AuthContext from "../../context/AuthContext";
+import ReviewCards from "./ReviewCards";
 import colors from "./colors";
 
 const useStyles = makeStyles({
-  reviewCard: {
-    padding: "5px 20px"
-  }, 
-  avatar: {
-    backgroundColor: colors[Math.floor(Math.random() * colors.length)]
-  },
   header: {
     paddingTop: '5%',
     paddingBottom: '2%'
@@ -47,12 +38,6 @@ const Restaurant = (props) => {
   const { loggedIn } = useContext(AuthContext);
   const history = useHistory();
   const classes = useStyles(restaurant);
-  const breakpoints = {
-    default: 4,
-    1500: 3,
-    1100: 2,
-    850: 1
-  };
   
   const getRestaurant = (id) => {
     RestaurantDataService.get(id)
@@ -82,19 +67,6 @@ const Restaurant = (props) => {
     if(restaurantId === "lucky") getRandomRestaurant();
     else getRestaurant(restaurantId);
   }, [restaurantId]);
-
-  const deleteReview = (reviewId, index) => {
-    ReviewDataServices.deleteReview(reviewId, loggedIn?.userData._id)
-      .then(res => {
-        var updateReviews = restaurant;
-        updateReviews.reviews.splice(index, 1);
-        setRestaurant( {...updateReviews})
-      })
-      .catch(e => {
-        console.error(`unable to delete review in RestaurantPage: ${e}`);
-        history.push("/login");
-      })
-  }
 
   return (
     <Container>
@@ -141,53 +113,12 @@ const Restaurant = (props) => {
 
             <Divider variant="middle" />
 
+            
+
             <Grid className={classes.reviewsContainer} container spacing={3} justify="center">
               {restaurant.reviews.length > 0 
               ? (
-                <Masonry
-                breakpointCols={breakpoints}
-                className="my-masonry-grid"
-                columnClassName="my-masonry-grid_column">
-                  {restaurant.reviews.map((review, index) => {
-                    return (
-                      <div>
-                        <Card className={classes.reviewCard}>
-                          <CardHeader
-                            avatar={
-                              <Avatar style={{ backgroundColor:`${colors[Math.floor(Math.random() * colors.length)]}` }}>
-                                {review.name.charAt(0).toUpperCase()}
-                              </Avatar>
-                            }
-                            title={review.name}
-                            subheader={review.date.split("T")[0]}
-                          />
-
-                          <CardContent>
-                            <Typography variant="body2" color="textSecondary" component="p">
-                              {review.text}
-                            </Typography>
-                          </CardContent>
-
-                          {loggedIn?.status && loggedIn?.userData._id === review.user_id &&
-                            <CardActions disableSpacing>
-                              <IconButton 
-                                onClick={() => deleteReview(review._id, index)}
-                              >
-                                <DeleteIcon />
-                              </IconButton>
-                              <IconButton 
-                                component={Link} 
-                                to={{ pathname: "/restaurants/" + restaurantId + "/review", state: { currentReview: review } }}
-                              >
-                                <EditIcon />
-                              </IconButton>
-                            </CardActions>
-                          }
-                        </Card>
-                      </div>
-                    );
-                  })}
-                </Masonry>
+                <ReviewCards restaurantId={restaurantId} restaurant={restaurant} setRestaurant={setRestaurant} loggedIn={loggedIn} />
               ) 
               : (
                 <Grid container align="center" alignItems="center" justify="center" spacing={1} >

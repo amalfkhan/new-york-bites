@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Container, Typography, makeStyles } from '@material-ui/core';
-import RestaurantCard from "./RestaurantCard";
+import RestaurantCards from "./RestaurantCards";
 import Pagination from "./Pagination";
 import Search from "./Search"
 
@@ -26,7 +26,7 @@ const RestaurantsPage = (props) => {
         What are you craving?
       </Typography>
       <Search setRestaurants={setRestaurants} setTotalRestaurants={setTotalRestaurants} currPage={currPage} restaurantsPerPage={restaurantsPerPage} newSearch={newSearch}/>
-      <RestaurantCard restaurants={restaurants} />
+      <RestaurantCards restaurants={restaurants} />
       <Pagination totalRestaurants={totalRestaurants} restaurantsPerPage={restaurantsPerPage} setCurrPage={setCurrPage} currPage={currPage} newSearch={newSearch}/>
     </Container>
   );

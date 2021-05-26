@@ -20,7 +20,7 @@ const useStyles = makeStyles({
   }
 });
 
-const RestaurantCard = ({ restaurants }) => {
+const RestaurantCards = ({ restaurants }) => {
   const classes = useStyles();
   const bull = <span className={classes.bullet}>•</span>;
   const breakpoints = {
@@ -75,4 +75,4 @@ const RestaurantCard = ({ restaurants }) => {
   );
 }
 
-export default RestaurantCard;
+export default RestaurantCards;

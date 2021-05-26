@@ -4,7 +4,6 @@ import { makeStyles, Container, Grid, Divider, Typography, Button } from '@mater
 import RestaurantDataService from "../../services/restaurant.service";
 import AuthContext from "../../context/AuthContext";
 import ReviewCards from "./ReviewCards";
-import colors from "./colors";
 
 const useStyles = makeStyles({
   header: {
@@ -64,9 +63,9 @@ const Restaurant = (props) => {
   }
 
   useEffect(() => {
-    if(restaurantId === "lucky") getRandomRestaurant();
-    else getRestaurant(restaurantId);
-  }, [restaurantId]);
+    if(props.match.params.id === "lucky") getRandomRestaurant();
+    else {getRestaurant(props.match.params.id)};
+  }, [props.match.params.id]);
 
   return (
     <Container>
@@ -111,9 +110,7 @@ const Restaurant = (props) => {
               </Grid>
             </Grid>
 
-            <Divider variant="middle" />
-
-            
+            <Divider variant="middle" />   
 
             <Grid className={classes.reviewsContainer} container spacing={3} justify="center">
               {restaurant.reviews.length > 0 

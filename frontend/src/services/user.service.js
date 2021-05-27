@@ -1,6 +1,6 @@
 // requests to backend regarding users
 
-import http from "../http-common";
+import http from "./http-common";
 
 class UserDataService {
   loggedInUser(data) {
@@ -10,7 +10,7 @@ class UserDataService {
   registerUser(data) {
     return http.post("/user/register", data);
   }
-  
+
   loginUser(data) {
     return http.post("/user/login", data);
   }
@@ -19,6 +19,5 @@ class UserDataService {
     return http.get("/user/logout", data);
   }
 }
-
 
 export default new UserDataService();

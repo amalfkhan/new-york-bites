@@ -3,17 +3,26 @@
 
 import React from "react";
 import { Link, useHistory } from "react-router-dom";
-import { makeStyles, Typography, Card, CardContent, CardActions, CardHeader, Avatar, IconButton } from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
-import Masonry from 'react-masonry-css';
+import {
+  makeStyles,
+  Typography,
+  Card,
+  CardContent,
+  CardActions,
+  CardHeader,
+  Avatar,
+  IconButton,
+} from "@material-ui/core";
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
+import Masonry from "react-masonry-css";
 import ReviewDataServices from "../../services/review.service";
 import colors from "./colors";
 
 const useStyles = makeStyles({
   reviewCard: {
-    padding: "5px 20px"
-  }
+    padding: "5px 20px",
+  },
 });
 
 const ReviewCards = ({ restaurantId, restaurant, setRestaurant, loggedIn }) => {
@@ -23,35 +32,42 @@ const ReviewCards = ({ restaurantId, restaurant, setRestaurant, loggedIn }) => {
     default: 4,
     1500: 3,
     1100: 2,
-    850: 1
+    850: 1,
   };
 
   // return - updated set of reviews for restaurant
   const deleteReview = (reviewId, index) => {
     ReviewDataServices.deleteReview(reviewId, loggedIn?.userData._id)
-      .then(res => {
+      .then((res) => {
         var updateReviews = restaurant;
         updateReviews.reviews.splice(index, 1);
-        setRestaurant( {...updateReviews})
+        setRestaurant({ ...updateReviews });
       })
-      .catch(e => {
+      .catch((e) => {
         console.error(`unable to delete review in RestaurantPage: ${e}`);
         history.push("/login");
-      })
-  }
+      });
+  };
 
   return (
     <Masonry
-    breakpointCols={breakpoints}
-    className="my-masonry-grid"
-    columnClassName="my-masonry-grid_column">
+      breakpointCols={breakpoints}
+      className="my-masonry-grid"
+      columnClassName="my-masonry-grid_column"
+    >
       {restaurant.reviews.map((review, index) => {
         return (
           <div>
             <Card className={classes.reviewCard}>
               <CardHeader
                 avatar={
-                  <Avatar style={{ backgroundColor:`${colors[Math.floor(Math.random() * colors.length)]}` }}>
+                  <Avatar
+                    style={{
+                      backgroundColor: `${
+                        colors[Math.floor(Math.random() * colors.length)]
+                      }`,
+                    }}
+                  >
                     {review.name.charAt(0).toUpperCase()}
                   </Avatar>
                 }
@@ -65,25 +81,29 @@ const ReviewCards = ({ restaurantId, restaurant, setRestaurant, loggedIn }) => {
                 </Typography>
               </CardContent>
 
-              {loggedIn?.status && loggedIn?.userData._id === review.user_id && // conditionally display delete and edit options based on user
-                <CardActions disableSpacing>
-                  <IconButton onClick={() => deleteReview(review._id, index)}>
-                    <DeleteIcon />
-                  </IconButton>
-                  <IconButton 
-                    component={Link} 
-                    to={{ pathname: "/restaurants/" + restaurantId + "/review", state: { currentReview: review } }}
-                  >
-                    <EditIcon />
-                  </IconButton>
-                </CardActions>
-              }
+              {loggedIn?.status &&
+                loggedIn?.userData._id === review.user_id && ( // conditionally display delete and edit options based on user
+                  <CardActions disableSpacing>
+                    <IconButton onClick={() => deleteReview(review._id, index)}>
+                      <DeleteIcon />
+                    </IconButton>
+                    <IconButton
+                      component={Link}
+                      to={{
+                        pathname: "/restaurants/" + restaurantId + "/review",
+                        state: { currentReview: review },
+                      }}
+                    >
+                      <EditIcon />
+                    </IconButton>
+                  </CardActions>
+                )}
             </Card>
           </div>
         );
       })}
     </Masonry>
-  )
-}
+  );
+};
 
-export default ReviewCards
+export default ReviewCards;

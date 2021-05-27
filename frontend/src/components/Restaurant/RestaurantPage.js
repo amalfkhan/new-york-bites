@@ -1,35 +1,42 @@
 // component for displaying restaurant data on an individual restaurant and it's reviews
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { makeStyles, Container, Grid, Divider, Typography, Button } from '@material-ui/core';
+import {
+  makeStyles,
+  Container,
+  Grid,
+  Divider,
+  Typography,
+  Button,
+} from "@material-ui/core";
 import RestaurantDataService from "../../services/restaurant.service";
 import AuthContext from "../../context/AuthContext";
 import ReviewCards from "./ReviewCards";
 
 const useStyles = makeStyles({
   header: {
-    paddingTop: '5%',
-    paddingBottom: '2%'
+    paddingTop: "5%",
+    paddingBottom: "2%",
   },
   reviewsContainer: {
     "&.MuiGrid-container": {
-      display: "block"
+      display: "block",
     },
-    paddingTop: '7%'
+    paddingTop: "7%",
   },
   bullet: {
-    display: 'inline-block',
-    margin: '0 10px',
-    transform: 'scale(0.8)',
+    display: "inline-block",
+    margin: "0 10px",
+    transform: "scale(0.8)",
   },
   cuisine: {
-    fontSize: 16
+    fontSize: 16,
   },
   button: {
     margin: 20,
     padding: "10px 20px",
-    display: 'inline-block'
-  }
+    display: "inline-block",
+  },
 });
 
 const Restaurant = (props) => {
@@ -38,103 +45,160 @@ const Restaurant = (props) => {
   const { loggedIn } = useContext(AuthContext); // get status and user data based on wether a user is logged in or not
   const history = useHistory();
   const classes = useStyles(restaurant);
-  
+
   // return - a single restaurant if there is one associated with the id
-  const getRestaurant = (id) => { 
+  const getRestaurant = (id) => {
     RestaurantDataService.get(id)
-      .then(res => {
+      .then((res) => {
         setRestaurant(res.data);
         setRestaurantId(res.data._id);
       })
-      .catch(e => {
+      .catch((e) => {
         console.error(`unable to retrieve restaurant in RestaurantPage: ${e}`);
         history.push("/404");
       });
-  }
+  };
 
   // return - a single random restaurant
   const getRandomRestaurant = () => {
     RestaurantDataService.getRandom()
-      .then(res => {
+      .then((res) => {
         setRestaurant(res.data);
         setRestaurantId(res.data._id);
       })
-      .catch(e => {
-        console.error(`unable to retrieve random restaurant in RestaurantPage: ${e}`);
+      .catch((e) => {
+        console.error(
+          `unable to retrieve random restaurant in RestaurantPage: ${e}`
+        );
         history.push("/404");
       });
-  }
+  };
 
   useEffect(() => {
-    if(props.match.params.id === "lucky") getRandomRestaurant();
-    else {getRestaurant(props.match.params.id)};
+    if (props.match.params.id === "lucky") getRandomRestaurant();
+    else {
+      getRestaurant(props.match.params.id);
+    }
   }, [props.match.params.id]);
 
   return (
     <Container>
-        {restaurant 
-        ? (
-          <div>
-            <Grid container align = "center" alignItems="center" justify="center" spacing={1} className={classes.header}>
-              <Grid item xs={12}>
-                <Typography variant="subtitle2" className={classes.cuisine} color="textSecondary">
-                  {restaurant.cuisine}
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography variant="h3" component="h2">
-                  {restaurant.name}
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography variant="h6" className={classes.address} color="textSecondary" gutterBottom>
-                  {`${restaurant.address.building} ${restaurant.address.street}, ${restaurant.address.zipcode}`}
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography variant="body1" component="p">
-                  {`Grade: ${restaurant.grades[0]?.grade}`}<span className={classes.bullet}>•</span>{`Score: ${restaurant.grades[0]?.score}`}
-                </Typography>
-              </Grid>
+      {restaurant ? (
+        <div>
+          <Grid
+            container
+            align="center"
+            alignItems="center"
+            justify="center"
+            spacing={1}
+            className={classes.header}
+          >
+            <Grid item xs={12}>
+              <Typography
+                variant="subtitle2"
+                className={classes.cuisine}
+                color="textSecondary"
+              >
+                {restaurant.cuisine}
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant="h3" component="h2">
+                {restaurant.name}
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography
+                variant="h6"
+                className={classes.address}
+                color="textSecondary"
+                gutterBottom
+              >
+                {`${restaurant.address.building} ${restaurant.address.street}, ${restaurant.address.zipcode}`}
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant="body1" component="p">
+                {`Grade: ${restaurant.grades[0]?.grade}`}
+                <span className={classes.bullet}>•</span>
+                {`Score: ${restaurant.grades[0]?.score}`}
+              </Typography>
+            </Grid>
 
-              <Grid item xs={12}>
-                <Button variant="contained" color="primary" className={classes.button} target="_blank" href={"https://www.google.com/maps/place/" + `${restaurant.address.building} ${restaurant.address.street}, ${restaurant.address.zipcode}`}>
-                  View map
-                </Button>
-                <Button 
-                  variant="contained"
-                  color="primary"
-                  className={classes.button} 
-                  component={Link} 
-                  to= { loggedIn?.status ? { pathname: "/restaurants/" + restaurantId + "/review", state: { currentReview: "" } } : { pathname: "/login" } }
+            <Grid item xs={12}>
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.button}
+                target="_blank"
+                href={
+                  "https://www.google.com/maps/place/" +
+                  `${restaurant.address.building} ${restaurant.address.street}, ${restaurant.address.zipcode}`
+                }
+              >
+                View map
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.button}
+                component={Link}
+                to={
+                  loggedIn?.status
+                    ? {
+                        pathname: "/restaurants/" + restaurantId + "/review",
+                        state: { currentReview: "" },
+                      }
+                    : { pathname: "/login" }
+                }
+              >
+                Add a review
+              </Button>
+            </Grid>
+          </Grid>
+
+          <Divider variant="middle" />
+
+          <Grid
+            className={classes.reviewsContainer}
+            container
+            spacing={3}
+            justify="center"
+          >
+            {restaurant.reviews.length > 0 ? (
+              <ReviewCards
+                restaurantId={restaurantId}
+                restaurant={restaurant}
+                setRestaurant={setRestaurant}
+                loggedIn={loggedIn}
+              />
+            ) : (
+              <Grid
+                container
+                align="center"
+                alignItems="center"
+                justify="center"
+                spacing={1}
+              >
+                <Typography
+                  variant="h6"
+                  className={classes.address}
+                  color="textSecondary"
+                  gutterBottom
                 >
-                  Add a review
-                </Button>
+                  No reviews yet
+                  <br />
+                  Have you visited this restuarant? Add a review above!
+                </Typography>
               </Grid>
-            </Grid>
-
-            <Divider variant="middle" />   
-
-            <Grid className={classes.reviewsContainer} container spacing={3} justify="center">
-              {restaurant.reviews.length > 0 
-              ? (
-                <ReviewCards restaurantId={restaurantId} restaurant={restaurant} setRestaurant={setRestaurant} loggedIn={loggedIn} />
-              ) 
-              : (
-                <Grid container align="center" alignItems="center" justify="center" spacing={1} >
-                  <Typography variant="h6" className={classes.address} color="textSecondary" gutterBottom>
-                    No reviews yet<br/>
-                    Have you visited this restuarant? Add a review above!
-                  </Typography>
-                </Grid>
-              )}
-            </Grid>
-
-          </div>
-        ) 
-        : (<></>)}
+            )}
+          </Grid>
+        </div>
+      ) : (
+        <></>
+      )}
     </Container>
   );
-}
+};
 
 export default Restaurant;

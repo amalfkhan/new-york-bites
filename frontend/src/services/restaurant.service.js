@@ -1,9 +1,11 @@
 // requests to backend regarding restaurants
-import http from "../http-common";
+import http from "./http-common";
 
 class RestaurantDataService {
   getAll(currPage = 1, restaurantsPerPage = 100) {
-    return http.get(`?page=${currPage}&restaurantsPerPage=${restaurantsPerPage}`);
+    return http.get(
+      `?page=${currPage}&restaurantsPerPage=${restaurantsPerPage}`
+    );
   }
 
   get(id) {
@@ -15,7 +17,9 @@ class RestaurantDataService {
   }
 
   find(query, by = "name", currPage = 1, restaurantsPerPage = 100) {
-    return http.get(`?${by}=${query}&page=${currPage}&restaurantsPerPage=${restaurantsPerPage}`);
+    return http.get(
+      `?${by}=${query}&page=${currPage}&restaurantsPerPage=${restaurantsPerPage}`
+    );
   }
 
   getCuisines() {

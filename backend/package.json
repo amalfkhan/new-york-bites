@@ -1,5 +1,5 @@
 {
-  "name": "restaurant-reviews",
+  "name": "new-york-bites",
   "version": "1.0.0",
   "description": "An api connecting users to a mongodb database of New York restaurants and their reviews",
   "main": "index.js",

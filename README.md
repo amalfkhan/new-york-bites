@@ -1,6 +1,8 @@
-# New York Restaurant Reviews
+# New York Bites
 
 An application for users to post reviews on restaurants in New York
+
+**Tools:** React/JavaScript, Node.js/Express, mongoDB
 
 <p>&nbsp;</p>
 
@@ -16,7 +18,22 @@ An application for users to post reviews on restaurants in New York
 
 ### Register:
 
-![Register page with error](https://i.imgur.com/V5epimG.png)
+![Registration page with error](https://i.imgur.com/V5epimG.png)
+
+<p>&nbsp;</p>
+
+## Reflection
+
+I built this project to familiarize myself with:
+
+- Developing a server in node.js
+- Connecting a server to a mongodb database
+- Methods for connecting a backend to a frontend
+- Reading technical documentation for tools that are new to me
+
+I wanted to build an application that allowed users to leave restaurant reviews. I started this by first developing a backend that connected to my mongodb database. The database was populated using a sample dataset of restaurants in New York. I tested the backend using insomnia. Once the majority of the backend was complete, I switched to setting up my frontend and putting in requests to the backend. I later decided I wanted to implement a proper user sign-in so I built out a user authentication system.
+
+The main challenges I ran into were setting up authentication, and working directly with mongodb. My understanding of authentication has greatly improved, and in future projects I'll likely use mongoose as an in-between to a mongodb database.
 
 <p>&nbsp;</p>
 
@@ -70,24 +87,3 @@ pwd: rodrigohernandez
 ```
 
 (You can create your own dummy account - the email is only used for sign-in)
-
-<p>&nbsp;</p>
-
-## Reflection
-
-I built this project to familiarize myself with:
-
-- Developing a server in node.js
-- Connecting a server to a mongodb database
-- Methods for connecting a backend to a frontend
-- Reading technical documentation for tools that are new to me
-
-I wanted to build an application that allowed users to leave restaurant reviews. I started this by first developing a backend that connected to my mongodb database. The database was populated using a sample dataset of restaurants in New York. I tested the backend using insomnia. Once the majority of the backend was complete, I switched to setting up my frontend and putting in requests to the backend. I later decided I wanted to implement a proper user sign-in so I built out a user authentication system.
-
-The main challenges I ran into were setting up authentication, and working directly with mongodb. My understanding of authentication has greatly improved, and in future projects I'll likely use mongoose as an in-between to a mongodb database.
-
-The main technologies I used in implementing this project included:
-
-- React with React Router
-- node.js with Express
-- Mongodb

@@ -1,3 +1,5 @@
+![Home/Search page](https://i.imgur.com/6VcjW1R.png)
+
 # New York Bites
 
 An application for users to post reviews on restaurants in New York
@@ -7,10 +9,6 @@ An application for users to post reviews on restaurants in New York
 <p>&nbsp;</p>
 
 ## Project Screen Shots
-
-### Search:
-
-![Search page](https://i.imgur.com/6VcjW1R.png)
 
 ### Restaurant:
 

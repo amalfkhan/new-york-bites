@@ -12,13 +12,14 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api/v1/restaurants", routes);
-app.use("*", (req, res) => res.status(404).json({ error: "not found" }));
+// app.use("*", (req, res) => res.status(404).json({ error: "not found" }));
 
-// if (process.env.NODE_ENV === "production") {
-//   app.use(express.static("../frontend/build"));
-//   app.get("*", (req, res) => {
-//     res.sendFile(path.resolve(__dirname, "../frontend", "build", "index.html"));
-//   });
-// }
+// serve static assets if in prod
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("frontend/build"));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"));
+  });
+}
 
 export default app;

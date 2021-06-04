@@ -1,4 +1,4 @@
-// component for displaying restaurant data on an individual restaurant and it's reviews
+// component for displaying restaurant data and reviews for an individual restaurant
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import {
